@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title">
+  <title id="title">Seven-hex brand mark</title>
+  
+  <path d="M663.93 203.27 L587.56 336.51 L434.82 336.51 L358.45 200.02 L433.19 66.78 L589.18 66.78 Z" fill="#00C6FF" data-hex="top"/>
+  <path d="M400.70 357.64 L324.33 490.88 L169.96 490.88 L98.47 365.76 L95.22 354.39 L171.59 221.15 L324.33 221.15 Z" fill="#00EBFF" data-hex="upper-left"/>
+  <path d="M928.78 357.64 L854.04 490.88 L698.05 490.88 L623.30 354.39 L699.67 221.15 L852.41 221.15 Z" fill="#366AFE" data-hex="upper-right"/>
+  <path d="M663.93 515.25 L589.18 646.87 L434.82 646.87 L358.45 510.38 L433.19 377.13 L589.18 377.13 L662.30 505.50 Z" fill="#3966FF" data-hex="center"/>
+  <path d="M400.70 667.99 L324.33 802.85 L169.96 802.85 L100.09 679.36 L95.22 664.74 L169.96 533.12 L324.33 533.12 Z" fill="#4D53FF" data-hex="lower-left"/>
+  <path d="M928.78 669.61 L852.41 802.85 L698.05 802.85 L623.30 666.36 L698.05 533.12 L854.04 533.12 Z" fill="#742EFF" data-hex="lower-right"/>
+  <path d="M663.93 825.60 L589.18 957.22 L433.19 957.22 L358.45 822.35 L434.82 687.49 L589.18 687.49 L657.43 807.73 Z" fill="#8521FF" data-hex="bottom"/>
+</svg>
