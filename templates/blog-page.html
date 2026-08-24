@@ -1,0 +1,112 @@
+{% extends "base.html" %} {% block content %}
+{% set show_toc = page.reading_time and page.reading_time >= 3 and page.toc | length > 2 %}
+<article class="article" {% if not page.extra.searchExclude %}data-pagefind-body data-pagefind-filter="section:Blog"{% endif %}>
+  <div class="article__meta" data-pagefind-ignore>
+    <a href="/blog/">← Blog</a>
+    <span>{{ page.date | date(format="%B %e, %Y") }}</span>
+    {% if page.extra.author %}<span>{{ page.extra.author }}</span>{% endif %}
+    {% if page.reading_time %}<span>{{ page.reading_time }} min read</span>{% endif %}
+  </div>
+  <h1 class="article__title">{{ page.title }}</h1>
+  {% if page.description %}
+  <p class="article__summary">{{ page.description }}</p>
+  {% endif %}
+
+  {% if show_toc %}
+  <nav class="article-contents" id="article-contents" data-pagefind-ignore>
+    <div class="article-contents__title">Contents</div>
+    <ol class="article-contents__list">
+      {% for h1 in page.toc %}
+      <li><a href="{{ h1.permalink | safe }}">{{ h1.title }}</a></li>
+      {% endfor %}
+    </ol>
+  </nav>
+  {% endif %}
+
+  <div class="prose" id="guides-content">
+    {{ page.content | safe }}
+  </div>
+
+  <div class="article__footer" data-pagefind-ignore>
+    {% if page.lower %}<a href="{{ page.lower.permalink | safe }}">← {{ page.lower.title }}</a>{% else %}<span></span>{% endif %}
+    {% if page.higher %}<a href="{{ page.higher.permalink | safe }}">{{ page.higher.title }} →</a>{% endif %}
+  </div>
+</article>
+
+{% if show_toc %}
+<aside class="guides-page-toc article-toc-rail" id="article-toc-rail" data-pagefind-ignore aria-hidden="true">
+  <a class="article-toc-rail__top" href="#" id="article-toc-top">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+    Back to top
+  </a>
+  <div class="guides-page-toc-title">On this page</div>
+  <ul class="guides-page-toc-list">
+    {% for h1 in page.toc %}
+    <li class="guides-page-toc-item">
+      <a href="{{ h1.permalink | safe }}">{{ h1.title }}</a>
+    </li>
+    {% endfor %}
+  </ul>
+</aside>
+{% endif %}
+
+<script src="{{ get_url(path='js/guides.js', cachebust=true) | safe }}" type="text/javascript" defer></script>
+{% if show_toc %}
+<script>
+  (function () {
+    var contents = document.getElementById("article-contents");
+    var rail = document.getElementById("article-toc-rail");
+    if (!contents || !rail) return;
+
+    // Hand-off: the inline Contents block owns the top of the page; once it
+    // scrolls out of view the right rail takes over (and vice versa).
+    var topLink = document.getElementById("article-toc-top");
+    if (topLink) topLink.addEventListener("click", function (e) {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    var io = new IntersectionObserver(function (entries) {
+      var visible = entries[0].isIntersecting;
+      var pastIt = contents.getBoundingClientRect().bottom < 0;
+      rail.classList.toggle("is-visible", !visible && pastIt);
+      rail.setAttribute("aria-hidden", String(visible || !pastIt));
+    }, { rootMargin: "0px" });
+    io.observe(contents);
+
+    // Scrollspy on the rail.
+    var links = Array.prototype.slice.call(rail.querySelectorAll("a"));
+    var byId = {};
+    links.forEach(function (l) {
+      var id = decodeURIComponent((l.getAttribute("href") || "").split("#")[1] || "");
+      if (id) byId[id] = l;
+    });
+    var headings = Object.keys(byId)
+      .map(function (id) { return document.getElementById(id); })
+      .filter(Boolean);
+    function onScroll() {
+      var current = null;
+      for (var i = 0; i < headings.length; i++) {
+        if (headings[i].getBoundingClientRect().top <= 110) current = headings[i];
+        else break;
+      }
+      links.forEach(function (l) { l.classList.remove("is-active"); });
+      if (current) {
+        var link = byId[current.id];
+        link.classList.add("is-active");
+        var rr = rail.getBoundingClientRect(), lr = link.getBoundingClientRect();
+        if (lr.top < rr.top || lr.bottom > rr.bottom)
+          rail.scrollTop += lr.top - rr.top - rail.clientHeight / 2;
+      }
+    }
+    var ticking = false;
+    window.addEventListener("scroll", function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () { onScroll(); ticking = false; });
+    }, { passive: true });
+    onScroll();
+  })();
+</script>
+{% endif %}
+{% endblock content %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %} {% block content %}
+<section class="listing">
+  <h1 class="listing__title">{{ term.name | title }}</h1>
+  <p class="listing__sub">Posts in “{{ term.name }}”.</p>
+  {% for post in term.pages %}
+  <a class="post-card" href="{{ post.permalink | safe }}">
+    <div class="post-card__meta">
+      <span>{{ post.date | date(format="%B %e, %Y") }}</span>
+      {% if post.reading_time %}<span>{{ post.reading_time }} min read</span>{% endif %}
+    </div>
+    <div class="post-card__title">{{ post.title }}</div>
+    {% if post.description %}<p class="post-card__summary">{{ post.description }}</p>{% endif %}
+  </a>
+  {% endfor %}
+</section>
+{% endblock content %}

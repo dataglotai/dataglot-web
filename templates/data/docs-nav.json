@@ -1,0 +1,71 @@
+{
+  "tabs": [
+    {
+      "name": "Getting started",
+      "description": "Install Dataglot and run your first governed, federated query.",
+      "groups": [
+        {
+          "name": null,
+          "pages": [
+            { "title": "Quickstart", "url": "/docs/getting-started/" },
+            { "title": "Install", "url": "/docs/install/" },
+            { "title": "Quick reference", "url": "/docs/quick-reference/" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Command line",
+      "description": "One-shot queries, the REPL, and shell pipelines — the full engine with no server.",
+      "groups": [
+        {
+          "name": null,
+          "pages": [
+            { "title": "CLI & REPL reference", "url": "/docs/cli/" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Configuration",
+      "description": "The dataglot.toml reference and the SQL-native runtime control plane.",
+      "groups": [
+        {
+          "name": null,
+          "pages": [
+            { "title": "Configuration file", "url": "/docs/configuration/" },
+            { "title": "Runtime configuration (SQL DDL)", "url": "/docs/runtime-config/" },
+            { "title": "Meta store", "url": "/docs/meta-store/" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Security & governance",
+      "description": "Authentication modes, access control, masks and row filters.",
+      "groups": [
+        {
+          "name": null,
+          "pages": [
+            { "title": "Authentication", "url": "/docs/authentication/" },
+            { "title": "Access control & policies", "url": "/docs/access-control/" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Reference",
+      "description": "Client compatibility, wire protocol coverage, and engine comparisons.",
+      "groups": [
+        {
+          "name": null,
+          "pages": [
+            { "title": "Client compatibility", "url": "/docs/compatibility/" },
+            { "title": "PostgreSQL wire API", "url": "/docs/pgwire-api/" },
+            { "title": "Building from source", "url": "/docs/building-from-source/" }
+          ]
+        }
+      ]
+    }
+  ]
+}

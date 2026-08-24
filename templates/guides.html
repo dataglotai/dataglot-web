@@ -1,0 +1,29 @@
+{% extends "base.html" %} {% block content %}
+{% set search_primary = "guides" %}
+<section class="listing listing--guides">
+  {% include "docs-search.html" %}
+  <h1 class="listing__title">{{ section.title | default(value="Guides") }}</h1>
+  <p class="listing__sub">{{ section.description }}</p>
+  <div class="guide-list">
+    {% for guide in section.pages %}
+    {% if not guide.extra.hidden %}
+    <a class="guide-row" href="{{ guide.permalink | safe }}">
+      <span class="guide-row__num">{% if loop.index < 10 %}0{% endif %}{{ loop.index }}</span>
+      <span class="guide-row__body">
+        <span class="guide-row__meta">
+          {% if guide.extra.topic %}<span class="guide-row__topic">{{ guide.extra.topic }}</span>{% endif %}
+          {% if guide.reading_time %}<span>{{ guide.reading_time }} min</span>{% endif %}
+          {% if guide.extra.level %}<span>{{ guide.extra.level }}</span>{% endif %}
+        </span>
+        <span class="guide-row__title">{{ guide.title }}</span>
+        {% if guide.description %}<span class="guide-row__desc">{{ guide.description | markdown(inline=true) | safe }}</span>{% endif %}
+      </span>
+      <span class="guide-row__arrow" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </span>
+    </a>
+    {% endif %}
+    {% endfor %}
+  </div>
+</section>
+{% endblock content %}

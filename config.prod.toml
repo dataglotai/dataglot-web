@@ -1,0 +1,28 @@
+# Production config — identical to config.toml except base_url.
+base_url = "https://dataglot.ai"
+
+title = "Dataglot"
+description = "Rust-native federated SQL query engine with governance enforced in the query plan."
+
+compile_sass = true
+build_search_index = false
+generate_feeds = true
+feed_filenames = ["rss.xml"]
+
+taxonomies = [
+    { name = "category", feed = true },
+]
+
+[markdown]
+[markdown.highlighting]
+theme = "ayu-dark"
+
+[extra]
+brand_name = "Dataglot"
+tagline = "Federated SQL with governance compiled into the plan"
+github_url = "https://github.com/dataglotai/dataglot"
+ghcr_image = "ghcr.io/dataglotai/dataglot"
+parent_company = "Peaka"
+parent_company_url = "https://www.peaka.com"
+og_image = "/og-image-1200x630.png"
+theme_color = "#080a12"

@@ -1,0 +1,15 @@
+{% extends "base.html" %} {% block content %}
+<section class="listing">
+  <h1 class="listing__title">Categories</h1>
+  <div class="guide-cards">
+    {% for term in terms %}
+    <a class="guide-card-link" href="{{ term.permalink | safe }}">
+      <span class="guide-card-link__text">
+        <span class="guide-card-link__title">{{ term.name | title }}</span>
+        <span class="guide-card-link__desc">{{ term.pages | length }} post{{ term.pages | length | pluralize }}</span>
+      </span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endblock content %}

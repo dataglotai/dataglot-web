@@ -1,0 +1,58 @@
+{% set nav = load_data(path="templates/data/docs-nav.json") %}
+<button class="docs-nav-toggle" id="docs-nav-toggle" type="button" aria-label="Toggle documentation navigation">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  Documentation menu
+</button>
+<aside class="docs-sidebar" id="docs-sidebar">
+  <nav class="docs-sidebar__nav">
+    <a class="docs-sidebar__home {% if current_path and current_path == '/docs/' %}is-active{% endif %}" href="/docs/">Documentation Home</a>
+    {% for tab in nav.tabs %}
+    {% if tab.external %}
+    <a class="docs-sidebar__tab docs-sidebar__tab--external" href="{{ tab.external }}">
+      {{ tab.name }}
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+    </a>
+    {% else %}
+    <details class="docs-sidebar__section" open>
+      <summary class="docs-sidebar__tab">{{ tab.name }}</summary>
+      {% for group in tab.groups %}
+      {% if group.name %}<div class="docs-sidebar__group">{{ group.name }}</div>{% endif %}
+      {% for p in group.pages %}
+      {% if p.url %}
+      <a class="docs-sidebar__link {% if current_path and current_path == p.url %}is-active{% endif %}" href="{{ p.url }}">{{ p.title }}</a>
+      {% endif %}
+      {% endfor %}
+      {% endfor %}
+    </details>
+    {% endif %}
+    {% endfor %}
+  </nav>
+</aside>
+<script>
+  (function () {
+    var toggle = document.getElementById("docs-nav-toggle");
+    var sidebar = document.getElementById("docs-sidebar");
+    if (toggle && sidebar) {
+      toggle.addEventListener("click", function () {
+        sidebar.classList.toggle("is-open");
+        toggle.classList.toggle("is-open");
+      });
+    }
+    // Collapse tab sections that don't contain the current page. On the docs
+    // landing page (nothing active) collapse everything — the cards carry
+    // the navigation there.
+    if (sidebar) {
+      sidebar.querySelectorAll(".docs-sidebar__section").forEach(function (d) {
+        if (!d.querySelector(".is-active")) d.removeAttribute("open");
+      });
+      // Center the active link inside the sidebar's own scroll container —
+      // scrollIntoView would also scroll the page itself past the header.
+      var active = sidebar.querySelector(".docs-sidebar__link.is-active");
+      if (active) {
+        var sr = sidebar.getBoundingClientRect();
+        var ar = active.getBoundingClientRect();
+        sidebar.scrollTop += (ar.top - sr.top) - sidebar.clientHeight / 2 + active.clientHeight / 2;
+      }
+    }
+  })();
+</script>

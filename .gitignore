@@ -1,0 +1,4 @@
+public/
+node_modules/
+zola-built/
+.DS_Store

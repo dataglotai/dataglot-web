@@ -1,0 +1,629 @@
+// Landing page
+
+.hero {
+  position: relative;
+  padding: 96px 24px 72px;
+  text-align: center;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: -40% -20% auto;
+    height: 130%;
+    background:
+      radial-gradient(600px 320px at 30% 20%, rgba(139, 44, 246, 0.18), transparent 70%),
+      radial-gradient(600px 320px at 70% 10%, rgba(8, 120, 255, 0.16), transparent 70%),
+      radial-gradient(500px 280px at 50% 40%, rgba(0, 235, 252, 0.07), transparent 70%);
+    pointer-events: none;
+  }
+
+  &__inner {
+    position: relative;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  &__title {
+    font-size: clamp(2.2rem, 5.5vw, 3.4rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin: 0 0 20px;
+  }
+
+  &__sub {
+    font-size: 1.2rem;
+    color: var(--ink-muted);
+    max-width: 680px;
+    margin: 0 auto 32px;
+  }
+
+  &__ctas {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  &__install {
+    margin-top: 28px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 8px 16px;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--ink-muted);
+
+    code {
+      background: none;
+      border: 0;
+      padding: 0;
+      color: var(--cyan);
+    }
+  }
+
+  &__install-copy {
+    display: inline-flex;
+    align-items: center;
+    background: none;
+    border: 0;
+    border-left: 1px solid var(--border);
+    color: var(--ink-faint);
+    padding: 2px 0 2px 10px;
+    margin-left: 4px;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--ink);
+    }
+
+    &.is-copied {
+      color: var(--success);
+    }
+
+    // The hidden attribute doesn't hide SVG-namespace elements by default.
+    svg[hidden] {
+      display: none;
+    }
+  }
+}
+
+// "Where it sits" governance map — the hourglass under the install line.
+.gov-map {
+  position: relative;
+  max-width: 880px;
+  margin: 20px auto 0;
+  text-align: center;
+
+  &__title {
+    font-size: 1.05rem;
+    color: var(--ink-muted);
+    max-width: 620px;
+    margin: 0 auto 32px;
+  }
+
+  &__consumers {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+
+    // Stay side by side on phones (matching the desktop shape); the chips
+    // inside go vertical instead so the narrow cards stay tidy.
+    @media (max-width: 640px) {
+      gap: 10px;
+
+      .gov-map__chips {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .gov-chip {
+        font-size: 0.78rem;
+        padding: 4px 11px;
+      }
+    }
+  }
+
+  &__group {
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    background: #12172c;
+    padding: 14px 16px;
+
+    &--ai {
+      border-color: rgba(139, 44, 246, 0.45);
+      background:
+        radial-gradient(240px 80px at 50% 0%, rgba(139, 44, 246, 0.12), transparent 75%),
+        var(--bg-raised);
+    }
+
+    &--sources {
+      border-style: dashed;
+    }
+  }
+
+  &__group-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-muted);
+    margin-bottom: 10px;
+
+    .gov-map__group--ai & {
+      color: #c9a1ff;
+    }
+  }
+
+  &__chips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  &__flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 6px 0;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--ink-muted);
+    letter-spacing: 0.04em;
+
+    > span:first-child,
+    > span:last-child {
+      width: 2px;
+      height: 28px;
+      background: linear-gradient(var(--border-strong), var(--link));
+      position: relative;
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: -3px;
+        border: 4px solid transparent;
+        border-top-color: var(--link);
+      }
+    }
+
+    // On narrow screens the label wraps and pushes the two connector lines
+    // to the viewport edges — drop them and mark the flow with an arrow.
+    @media (max-width: 640px) {
+      > span:first-child,
+      > span:last-child {
+        display: none;
+      }
+
+      > span:nth-child(2)::before {
+        content: "↓  ";
+        color: var(--link);
+      }
+    }
+  }
+
+  &__waist-row {
+    position: relative;
+
+    // Below the wide-desktop breakpoint the governance panel docks to the
+    // waist's right instead of floating in the outer gutter.
+    @media (max-width: 1150px) {
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+      gap: 10px;
+    }
+  }
+
+  &__waist {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    text-align: left;
+    padding: 18px 30px;
+    border-radius: 14px;
+    background:
+      radial-gradient(340px 100px at 50% 0%, rgba(8, 120, 255, 0.28), transparent 75%),
+      #10152e;
+    box-shadow: 0 10px 56px rgba(8, 120, 255, 0.28);
+
+    // Gradient ring — the one element on the page wearing the full brand run.
+    &::before {
+      content: "";
+      position: absolute;
+      inset: -1.5px;
+      border-radius: 15px;
+      background: var(--gradient);
+      z-index: -1;
+    }
+
+    @media (max-width: 640px) {
+      flex: 1;
+      min-width: 0;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+      gap: 8px;
+      padding: 14px 12px;
+
+      > img {
+        width: 24px;
+        height: 24px;
+      }
+
+      > div {
+        text-align: center;
+      }
+    }
+  }
+
+  &__waist-sub {
+    font-size: 0.82rem;
+    color: #b9c2dd;
+    margin-top: 5px;
+  }
+
+  &__gov {
+    position: absolute;
+    left: calc(50% + 250px);
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-align: left;
+
+    @media (max-width: 1150px) {
+      position: static;
+      transform: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 0;
+
+      .gov-map__gov-arrows {
+        font-size: 0.6rem;
+        gap: 3px;
+        align-items: center;
+      }
+
+      .gov-map__gov-panel .gov-map__chips {
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      flex: 0 0 21%;
+      min-width: 0;
+
+      .gov-map__gov-panel {
+        padding: 8px 5px;
+        width: 100%;
+      }
+
+      .gov-map__gov-panel .gov-map__group-label {
+        font-size: 0.54rem;
+        letter-spacing: 0.05em;
+        white-space: normal;
+      }
+
+      .gov-map__gov-panel .gov-chip {
+        font-size: 0.62rem;
+        padding: 3px 7px;
+      }
+
+      .gov-map__gov-arrows {
+        font-size: 0.52rem;
+        white-space: normal;
+        text-align: center;
+      }
+    }
+  }
+
+  &__gov-arrows {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--ink-faint);
+    white-space: nowrap;
+  }
+
+  &__gov-arrow--out {
+    color: var(--cyan);
+  }
+
+  &__gov-panel {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-raised);
+    padding: 12px 14px;
+  }
+
+  &__group--sources {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+}
+
+.gov-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid var(--border-strong);
+  border-radius: 100px;
+  background: #1a2040;
+  color: #cdd4ea;
+  font-size: 0.82rem;
+  padding: 5px 12px;
+  white-space: nowrap;
+
+  img {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+.hero-demo {
+  position: relative;
+  max-width: 900px;
+  margin: 56px auto 0;
+  text-align: left;
+
+  &__window {
+    background: var(--bg-inset);
+    border: 1px solid var(--border-strong);
+    border-radius: 14px;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+    overflow: hidden;
+  }
+
+  &__bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-raised);
+
+    span {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: var(--border-strong);
+    }
+
+    b {
+      margin-left: 10px;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--ink-faint);
+    }
+  }
+
+  pre {
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    padding: 20px 24px;
+    font-size: 0.83rem;
+  }
+
+}
+
+// Hand-marked SQL token colors — shared by the hero demo window and the
+// split-panel code blocks further down the page.
+.hero-demo,
+.split__panel {
+  .cm { color: var(--ink-faint); }        // comment
+  .kw { color: var(--violet); font-weight: 600; filter: brightness(1.4); }
+  .st { color: var(--success); }          // string
+  .id { color: var(--link); }             // identifier
+  .msk { color: var(--warning); }         // masked value
+}
+
+.section {
+  padding: 72px 24px;
+
+  &__inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  &__title {
+    font-size: clamp(1.7rem, 3.5vw, 2.3rem);
+    font-weight: 750;
+    margin: 0 0 12px;
+    letter-spacing: -0.02em;
+  }
+
+  &__lead {
+    font-size: 1.1rem;
+    color: var(--ink-muted);
+    max-width: 720px;
+    margin: 0 0 40px;
+  }
+
+  &--center {
+    text-align: center;
+
+    .section__lead {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  &--alt {
+    background: var(--bg-inset);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+.feature-card {
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+
+  &__icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(8, 120, 255, 0.12);
+    color: var(--cyan);
+    margin-bottom: 16px;
+  }
+
+  h3 {
+    margin: 0 0 8px;
+    font-size: 1.05rem;
+  }
+
+  p {
+    margin: 0;
+    color: var(--ink-muted);
+    font-size: 0.93rem;
+  }
+
+  code {
+    font-size: 0.82em;
+  }
+}
+
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+
+  // DOM keeps copy before panel so mobile reads text → example;
+  // --flip puts the panel on the left visually on desktop.
+  @media (min-width: 901px) {
+    &--flip .split__copy {
+      order: 2;
+    }
+  }
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+
+  &__copy {
+    h2 {
+      font-size: 1.7rem;
+      margin: 0 0 14px;
+      letter-spacing: -0.02em;
+    }
+
+    p {
+      color: var(--ink-muted);
+    }
+
+    ul {
+      color: var(--ink-muted);
+      padding-left: 20px;
+
+      li { margin: 8px 0; }
+    }
+  }
+
+  &__panel {
+    min-width: 0;
+
+    pre {
+      font-size: 0.8rem;
+    }
+  }
+}
+
+.proof-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 18px;
+  text-align: center;
+}
+
+.proof-item {
+  padding: 20px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-raised);
+
+  &__value {
+    font-size: 1.5rem;
+    font-weight: 750;
+    letter-spacing: -0.02em;
+  }
+
+  &__label {
+    color: var(--ink-muted);
+    font-size: 0.85rem;
+    margin-top: 4px;
+  }
+}
+
+.client-logos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px 14px;
+  margin-top: 8px;
+
+  span {
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 6px 16px;
+    color: var(--ink-muted);
+    font-size: 0.875rem;
+    background: var(--bg-raised);
+  }
+}
+
+.cta-banner {
+  text-align: center;
+  padding: 80px 24px;
+
+  &__box {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 56px 32px;
+    border-radius: 18px;
+    border: 1px solid var(--border-strong);
+    background:
+      radial-gradient(500px 240px at 50% 0%, rgba(8, 120, 255, 0.15), transparent 70%),
+      var(--bg-raised);
+  }
+
+  h2 {
+    font-size: 1.9rem;
+    margin: 0 0 12px;
+  }
+
+  p {
+    color: var(--ink-muted);
+    margin: 0 0 28px;
+  }
+}

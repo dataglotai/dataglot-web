@@ -1,0 +1,176 @@
+// Header + footer
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: var(--header-height);
+  background: rgba(8, 10, 18, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+
+  &__inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+
+  &__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    &:hover {
+      color: var(--ink);
+    }
+
+    // Optical centering: the wordmark's ink box is symmetric, but the g's
+    // descender means its cap-height body sits ~1.6px above the nav text's
+    // when the boxes are flex-centered. Align bodies, not boxes.
+    img + img {
+      position: relative;
+      top: 1.5px;
+    }
+  }
+
+  &__nav {
+    display: flex;
+    gap: 24px;
+    flex: 1;
+
+    a {
+      color: var(--ink-muted);
+      font-size: 0.95rem;
+      font-weight: 500;
+      &:hover {
+        color: var(--ink);
+      }
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  &__github {
+    color: var(--ink-muted);
+    display: inline-flex;
+    &:hover {
+      color: var(--ink);
+    }
+  }
+
+  &__menu {
+    display: none;
+    background: none;
+    border: 0;
+    color: var(--ink);
+    padding: 4px;
+    cursor: pointer;
+  }
+
+  @media (max-width: 820px) {
+    &__nav {
+      display: none;
+      position: absolute;
+      top: var(--header-height);
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      gap: 0;
+      background: var(--bg-raised);
+      border-bottom: 1px solid var(--border);
+      padding: 8px 0;
+
+      a {
+        padding: 12px 24px;
+      }
+
+      &.is-open {
+        display: flex;
+      }
+    }
+
+    &__menu {
+      display: inline-flex;
+    }
+  }
+}
+
+.site-footer {
+  border-top: 1px solid var(--border);
+  margin-top: 96px;
+  background: var(--bg-inset);
+
+  &__inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 56px 24px 40px;
+    display: flex;
+    gap: 64px;
+    flex-wrap: wrap;
+  }
+
+  &__brand {
+    max-width: 300px;
+
+    p {
+      color: var(--ink-muted);
+      font-size: 0.9rem;
+      margin: 14px 0 0;
+    }
+  }
+
+  &__credit a {
+    color: var(--link);
+  }
+
+  &__cols {
+    display: flex;
+    gap: 64px;
+    flex-wrap: wrap;
+    flex: 1;
+    justify-content: flex-end;
+  }
+
+  &__col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 140px;
+
+    a {
+      color: var(--ink-muted);
+      font-size: 0.9rem;
+      &:hover {
+        color: var(--ink);
+      }
+    }
+  }
+
+  &__col-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-faint);
+    margin-bottom: 4px;
+  }
+
+  &__legal {
+    border-top: 1px solid var(--border);
+    padding: 20px 24px;
+    text-align: center;
+    color: var(--ink-faint);
+    font-size: 0.85rem;
+  }
+}

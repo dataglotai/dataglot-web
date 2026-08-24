@@ -1,0 +1,61 @@
+{% extends "base.html" %} {% block content %}
+{% set cats = get_taxonomy(kind="category") %}
+<section class="listing listing--blog">
+  <h1 class="listing__title">{{ section.title | default(value="Blog") }}</h1>
+  <p class="listing__sub">{{ section.description }}</p>
+
+  <div class="filter-bar" id="blog-filters">
+    <button class="filter-pill is-active" data-cat="all" type="button">All</button>
+    {% for term in cats.items %}
+    <button class="filter-pill" data-cat="{{ term.name }}" type="button">{{ term.name | title }} <span class="filter-pill__count">{{ term.pages | length }}</span></button>
+    {% endfor %}
+  </div>
+
+  <div id="blog-posts">
+    {% for post in section.pages %}
+    {% if not post.extra.hidden %}
+    <a class="post-card" href="{{ post.permalink | safe }}"
+       data-cats="{% if post.taxonomies.category %}{{ post.taxonomies.category | join(sep=" ") }}{% endif %}">
+      <div class="post-card__meta">
+        <span class="post-card__date">{{ post.date | date(format="%B %e, %Y") }}</span>
+        {% if post.taxonomies.category %}
+        {% for cat in post.taxonomies.category %}<span class="post-card__tag post-card__tag--{{ cat }}">{{ cat }}</span>{% endfor %}
+        {% endif %}
+        {% if post.reading_time %}<span>{{ post.reading_time }} min read</span>{% endif %}
+      </div>
+      <div class="post-card__title">{{ post.title }}</div>
+      {% if post.description %}<p class="post-card__summary">{{ post.description }}</p>{% endif %}
+      {% if post.extra.author %}
+      <div class="post-card__author">
+        <span class="post-card__avatar" aria-hidden="true">{{ post.extra.author | truncate(length=1, end="") }}</span>
+        {{ post.extra.author }}
+      </div>
+      {% endif %}
+    </a>
+    {% endif %}
+    {% endfor %}
+  </div>
+  <p class="blog-empty" id="blog-empty" hidden>Nothing in this category yet.</p>
+</section>
+
+<script>
+  (function () {
+    var bar = document.getElementById("blog-filters");
+    var cards = Array.prototype.slice.call(document.querySelectorAll("#blog-posts .post-card"));
+    var empty = document.getElementById("blog-empty");
+    bar.addEventListener("click", function (e) {
+      var pill = e.target.closest(".filter-pill");
+      if (!pill) return;
+      bar.querySelectorAll(".filter-pill").forEach(function (p) { p.classList.toggle("is-active", p === pill); });
+      var cat = pill.getAttribute("data-cat");
+      var shown = 0;
+      cards.forEach(function (c) {
+        var show = cat === "all" || (c.getAttribute("data-cats") || "").split(" ").indexOf(cat) !== -1;
+        c.style.display = show ? "" : "none";
+        if (show) shown++;
+      });
+      empty.hidden = shown > 0;
+    });
+  })();
+</script>
+{% endblock content %}

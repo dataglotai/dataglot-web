@@ -1,0 +1,66 @@
+<?xml version="1.0" ?><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" role="img"><style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}.mono-t{font-family:ui-monospace,Menlo,Consolas,monospace}</style><rect x="-10000" y="-10000" width="30000" height="30000" fill="#0e1120"/>
+      <title>The internal structure of a Parquet file with row groups and a footer index</title>
+
+      
+      <rect x="60" y="40" width="640" height="320" fill="#141830" stroke="#2c3352" stroke-width="2"/>
+
+      
+      <rect x="60" y="40" width="640" height="34" fill="#1a1f3a" stroke="#2c3352"/>
+      <text x="80" y="62" class="mono-t" font-size="11" font-weight="700" fill="#eef0fa">HEADER</text>
+      <text x="170" y="62" font-size="11" fill="#9aa3c0">magic bytes "PAR1"</text>
+
+      
+      <text x="80" y="92" class="mono-t" font-size="9" letter-spacing="1.5" fill="#9aa3c0">ROW GROUPS · COLUMNS LAID OUT TOGETHER</text>
+
+      
+      <g transform="translate(96, 104)">
+        <rect width="588" height="60" fill="#141830" stroke="#2c3352" stroke-dasharray="3 3"/>
+        <text x="6" y="14" class="mono-t" font-size="9" letter-spacing="1.2" fill="#9aa3c0" font-weight="700">RG 01</text>
+        <rect x="50" y="10" width="100" height="40" fill="rgba(47,214,147,0.18)" stroke="#2c3352"/>
+        <text x="100" y="34" text-anchor="middle" class="mono-t" font-size="10" fill="#9aa3c0">col: id</text>
+        <rect x="160" y="10" width="100" height="40" fill="rgba(47,214,147,0.18)" stroke="#2c3352"/>
+        <text x="210" y="34" text-anchor="middle" class="mono-t" font-size="10" fill="#9aa3c0">col: name</text>
+        <rect x="270" y="10" width="100" height="40" fill="rgba(47,214,147,0.4)" stroke="#2c3352"/>
+        <text x="320" y="34" text-anchor="middle" class="mono-t" font-size="10" font-weight="700" fill="#eef0fa">col: region</text>
+        <rect x="380" y="10" width="100" height="40" fill="rgba(47,214,147,0.4)" stroke="#2c3352"/>
+        <text x="430" y="34" text-anchor="middle" class="mono-t" font-size="10" font-weight="700" fill="#eef0fa">col: amount</text>
+        <rect x="490" y="10" width="88" height="40" fill="rgba(47,214,147,0.18)" stroke="#2c3352"/>
+        <text x="534" y="34" text-anchor="middle" class="mono-t" font-size="10" fill="#9aa3c0">…</text>
+      </g>
+
+      
+      <g transform="translate(96, 174)">
+        <rect width="588" height="60" fill="#141830" stroke="#2c3352" stroke-dasharray="3 3"/>
+        <text x="6" y="14" class="mono-t" font-size="9" letter-spacing="1.2" fill="#9aa3c0" font-weight="700">RG 02</text>
+        <rect x="50" y="10" width="100" height="40" fill="rgba(8,120,255,0.12)" stroke="#2c3352"/>
+        <text x="100" y="34" text-anchor="middle" class="mono-t" font-size="10" fill="#9aa3c0">col: id</text>
+        <rect x="160" y="10" width="100" height="40" fill="rgba(8,120,255,0.12)" stroke="#2c3352"/>
+        <text x="210" y="34" text-anchor="middle" class="mono-t" font-size="10" fill="#9aa3c0">col: name</text>
+        <rect x="270" y="10" width="100" height="40" fill="rgba(8,120,255,0.3)" stroke="#2c3352"/>
+        <text x="320" y="34" text-anchor="middle" class="mono-t" font-size="10" font-weight="700" fill="#eef0fa">col: region</text>
+        <rect x="380" y="10" width="100" height="40" fill="rgba(8,120,255,0.3)" stroke="#2c3352"/>
+        <text x="430" y="34" text-anchor="middle" class="mono-t" font-size="10" font-weight="700" fill="#eef0fa">col: amount</text>
+        <rect x="490" y="10" width="88" height="40" fill="rgba(8,120,255,0.12)" stroke="#2c3352"/>
+        <text x="534" y="34" text-anchor="middle" class="mono-t" font-size="10" fill="#9aa3c0">…</text>
+      </g>
+
+      
+      <rect x="60" y="252" width="640" height="74" fill="#060810" stroke="#2c3352" stroke-width="1.5"/>
+      <text x="80" y="275" class="mono-t" font-size="11" fill="#f5b83d" font-weight="700">FOOTER</text>
+      <text x="170" y="275" font-size="12" fill="#eef0fa">schema · row group offsets · min/max stats per column</text>
+      <text x="170" y="294" font-size="11" fill="#eef0fa" class="mono-t" letter-spacing="1.2">read first · guides every byte the engine fetches</text>
+      <text x="170" y="312" font-size="11" fill="#eef0fa" class="mono-t" letter-spacing="1.2">column pruning + predicate pushdown live here</text>
+
+      
+      <rect x="60" y="326" width="640" height="34" fill="#1a1f3a" stroke="#2c3352"/>
+      <text x="80" y="348" font-size="11" fill="#9aa3c0">trailing magic bytes</text>
+      <text x="680" y="348" text-anchor="end" class="mono-t" font-size="11" font-weight="700" fill="#eef0fa">"PAR1"</text>
+
+      
+      <g transform="translate(60, 386)">
+        <rect width="14" height="14" fill="rgba(47,214,147,0.4)" stroke="#2c3352"/>
+        <text x="22" y="11" font-size="11" fill="#9aa3c0">columns the query needs · fetched</text>
+        <rect x="290" width="14" height="14" fill="rgba(47,214,147,0.18)" stroke="#2c3352"/>
+        <text x="312" y="11" font-size="11" fill="#9aa3c0">columns it doesn't · skipped</text>
+      </g>
+    </svg>

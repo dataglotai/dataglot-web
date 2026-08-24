@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 440" role="img"><style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}.mono-t{font-family:ui-monospace,Menlo,Consolas,monospace}</style><rect x="-10000" y="-10000" width="30000" height="30000" fill="#0e1120"/>
+      <title>Trade-off matrix per architectural era</title>
+
+      
+      <g class="mono-t" font-size="10" fill="#9aa3c0" letter-spacing="1.5">
+        <text x="200" y="44" text-anchor="middle" font-weight="700">DATABASE</text>
+        <text x="200" y="60" text-anchor="middle">1970s</text>
+        <text x="340" y="44" text-anchor="middle" font-weight="700">WAREHOUSE</text>
+        <text x="340" y="60" text-anchor="middle">1994</text>
+        <text x="480" y="44" text-anchor="middle" font-weight="700">DATA LAKE</text>
+        <text x="480" y="60" text-anchor="middle">2006</text>
+        <text x="620" y="44" text-anchor="middle" font-weight="700">CLOUD WH</text>
+        <text x="620" y="60" text-anchor="middle">2014</text>
+        <text x="760" y="44" text-anchor="middle" font-weight="700">LAKEHOUSE</text>
+        <text x="760" y="60" text-anchor="middle">today</text>
+      </g>
+
+      
+      <line x1="40" y1="76" x2="820" y2="76" stroke="#667090" stroke-width="0.5"/>
+
+      
+      <g class="mono-t" font-size="10" fill="#9aa3c0" letter-spacing="1.5" font-weight="700">
+        <text x="20" y="114">ACID</text>
+        <text x="20" y="166">SCAN SPEED</text>
+        <text x="20" y="218">SCALE</text>
+        <text x="20" y="270">SCHEMA FLEX</text>
+        <text x="20" y="322">OPENNESS</text>
+        <text x="20" y="374">COST</text>
+      </g>
+
+      
+      <circle cx="200" cy="110" r="16" fill="#2fd693"/><text x="200" y="115" text-anchor="middle" font-size="13" fill="#eef0fa">★</text>
+      <circle cx="340" cy="110" r="16" fill="#2fd693"/><text x="340" y="115" text-anchor="middle" font-size="13" fill="#eef0fa">★</text>
+      <circle cx="480" cy="110" r="16" fill="#ff6b81"/><text x="480" y="115" text-anchor="middle" font-size="13" fill="#eef0fa">✕</text>
+      <circle cx="620" cy="110" r="16" fill="#2fd693"/><text x="620" y="115" text-anchor="middle" font-size="13" fill="#eef0fa">★</text>
+      <circle cx="760" cy="110" r="16" fill="#2fd693"/><text x="760" y="115" text-anchor="middle" font-size="13" fill="#eef0fa">★</text>
+
+      
+      <circle cx="200" cy="162" r="16" fill="#ff6b81"/><text x="200" y="167" text-anchor="middle" font-size="13" fill="#eef0fa">✕</text>
+      <circle cx="340" cy="162" r="16" fill="#2fd693"/><text x="340" y="167" text-anchor="middle" font-size="13" fill="#eef0fa">★</text>
+      <circle cx="480" cy="162" r="16" fill="#ff6b81"/><text x="480" y="167" text-anchor="middle" font-size="13" fill="#eef0fa">✕</text>
+      <circle cx="620" cy="162" r="16" fill="#2fd693"/><text x="620" y="167" text-anchor="middle" font-size="13" fill="#eef0fa">★</text>
+      <circle cx="760" cy="162" r="16" fill="#2fd693"/><text x="760" y="167" text-anchor="middle" font-size="13" fill="#eef0fa">★</text>
+
+      
+      <circle cx="200" cy="214" r="16" fill="#ff6b81"/><text x="200" y="219" text-anchor="middle" font-size="13" fill="#eef0fa">✕</text>
+      <circle cx="340" cy="214" r="16" fill="#f5b83d"/><text x="340" y="219" text-anchor="middle" font-size="13" fill="#eef0fa">~</text>
+      <circle cx="480" cy="214" r="16" fill="#2fd693"/><text x="480" y="219" text-anchor="middle" font-size="13" fill="#eef0fa">★</text>
+      <circle cx="620" cy="214" r="16" fill="#2fd693"/><text x="620" y="219" text-anchor="middle" font-size="13" fill="#eef0fa">★</text>
+      <circle cx="760" cy="214" r="16" fill="#2fd693"/><text x="760" y="219" text-anchor="middle" font-size="13" fill="#eef0fa">★</text>
+
+      
+      <circle cx="200" cy="266" r="16" fill="#ff6b81"/><text x="200" y="271" text-anchor="middle" font-size="13" fill="#eef0fa">✕</text>
+      <circle cx="340" cy="266" r="16" fill="#ff6b81"/><text x="340" y="271" text-anchor="middle" font-size="13" fill="#eef0fa">✕</text>
+      <circle cx="480" cy="266" r="16" fill="#2fd693"/><text x="480" y="271" text-anchor="middle" font-size="13" fill="#eef0fa">★</text>
+      <circle cx="620" cy="266" r="16" fill="#f5b83d"/><text x="620" y="271" text-anchor="middle" font-size="13" fill="#eef0fa">~</text>
+      <circle cx="760" cy="266" r="16" fill="#2fd693"/><text x="760" y="271" text-anchor="middle" font-size="13" fill="#eef0fa">★</text>
+
+      
+      <circle cx="200" cy="318" r="16" fill="#f5b83d"/><text x="200" y="323" text-anchor="middle" font-size="13" fill="#eef0fa">~</text>
+      <circle cx="340" cy="318" r="16" fill="#ff6b81"/><text x="340" y="323" text-anchor="middle" font-size="13" fill="#eef0fa">✕</text>
+      <circle cx="480" cy="318" r="16" fill="#2fd693"/><text x="480" y="323" text-anchor="middle" font-size="13" fill="#eef0fa">★</text>
+      <circle cx="620" cy="318" r="16" fill="#ff6b81"/><text x="620" y="323" text-anchor="middle" font-size="13" fill="#eef0fa">✕</text>
+      <circle cx="760" cy="318" r="16" fill="#2fd693"/><text x="760" y="323" text-anchor="middle" font-size="13" fill="#eef0fa">★</text>
+
+      
+      <circle cx="200" cy="370" r="16" fill="#f5b83d"/><text x="200" y="375" text-anchor="middle" font-size="13" fill="#eef0fa">~</text>
+      <circle cx="340" cy="370" r="16" fill="#ff6b81"/><text x="340" y="375" text-anchor="middle" font-size="13" fill="#eef0fa">✕</text>
+      <circle cx="480" cy="370" r="16" fill="#2fd693"/><text x="480" y="375" text-anchor="middle" font-size="13" fill="#eef0fa">★</text>
+      <circle cx="620" cy="370" r="16" fill="#f5b83d"/><text x="620" y="375" text-anchor="middle" font-size="13" fill="#eef0fa">~</text>
+      <circle cx="760" cy="370" r="16" fill="#2fd693"/><text x="760" y="375" text-anchor="middle" font-size="13" fill="#eef0fa">★</text>
+
+      
+      <line x1="40" y1="402" x2="820" y2="402" stroke="#667090" stroke-width="0.5"/>
+
+      
+      <g transform="translate(40, 422)">
+        <circle cx="8" cy="0" r="9" fill="#2fd693"/><text x="24" y="4" font-size="11" fill="#9aa3c0">strong</text>
+        <circle cx="120" cy="0" r="9" fill="#f5b83d"/><text x="136" y="4" font-size="11" fill="#9aa3c0">ok</text>
+        <circle cx="200" cy="0" r="9" fill="#ff6b81"/><text x="216" y="4" font-size="11" fill="#9aa3c0">sacrificed</text>
+      </g>
+    </svg>

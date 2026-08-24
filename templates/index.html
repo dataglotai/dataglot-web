@@ -1,0 +1,292 @@
+{% extends "base.html" %} {% block content %}
+
+<section class="hero">
+  <div class="hero__inner">
+    <span class="eyebrow">Open source · Rust · Apache-2.0</span>
+    <h1 class="hero__title">Federated SQL with governance<br /><span class="gradient-text">compiled into the plan</span></h1>
+    <p class="hero__sub">
+      Dataglot is a Rust-native federated query engine. Point it at the databases you already run,
+      query them all through one PostgreSQL endpoint — and let column masks and row filters be
+      enforced inside the query plan itself, not bolted on afterwards.
+    </p>
+    <div class="hero__ctas">
+      <a class="btn btn--primary btn--lg" href="/docs/getting-started/">Get started in 5 minutes</a>
+      <a class="btn btn--ghost btn--lg" href="{{ config.extra.github_url }}" rel="noopener">Star on GitHub</a>
+    </div>
+    <div class="hero__install">
+      <span>$</span> <code id="hero-install-cmd">docker pull {{ config.extra.ghcr_image }}</code>
+      <button class="hero__install-copy" id="hero-install-copy" type="button" aria-label="Copy command">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" hidden><polyline points="20 6 9 17 4 12"/></svg>
+      </button>
+    </div>
+  </div>
+
+
+  <div class="hero-demo">
+    <div class="hero-demo__window">
+      <div class="hero-demo__bar"><span></span><span></span><span></span><b>psql · host=localhost port=5432 — one endpoint, all your databases</b></div>
+      <pre><code><span class="cm">-- users in Postgres, orders in another Postgres, segments in MySQL.
+-- One JOIN. The masking policy on users.email rides along.</span>
+<span class="kw">SELECT</span> u.<span class="id">email</span>, s.<span class="id">segment</span>, o.<span class="id">amount</span>
+<span class="kw">FROM</span>   users u
+<span class="kw">JOIN</span>   pg_orders.public.orders           o <span class="kw">ON</span> u.id = o.user_id
+<span class="kw">JOIN</span>   mysql_demo.demo.customer_segments s <span class="kw">ON</span> u.id = s.user_id
+<span class="kw">ORDER BY</span> o.amount <span class="kw">DESC</span>;
+
+      email      | segment  | amount
+-----------------+----------+--------
+ <span class="msk">***@example.com</span> | beta     | 199.00
+ <span class="msk">***@example.com</span> | standard | 199.00
+ <span class="msk">***@example.com</span> | beta     |  19.50
+<span class="cm">(4 rows — masked at plan time; the raw email never left the source)</span></code></pre>
+    </div>
+  </div>
+</section>
+
+<section class="section section--center" id="where-it-sits">
+  <div class="section__inner">
+    <span class="eyebrow">Where it sits</span>
+  <div class="gov-map">
+    <p class="gov-map__title">The execution layer of your governance — built for the AI era, made for every data access</p>
+
+    <div class="gov-map__consumers">
+      <div class="gov-map__group gov-map__group--ai">
+        <div class="gov-map__group-label">AI initiative</div>
+        <div class="gov-map__chips">
+          <span class="gov-chip"><img src="/img/logos/anthropic.svg" alt="" />Claude</span>
+          <span class="gov-chip"><img src="/img/logos/modelcontextprotocol.svg" alt="" />MCP agents</span>
+          <span class="gov-chip"><img src="/img/logos/langchain.svg" alt="" />LangChain</span>
+          <span class="gov-chip gov-chip--text">RAG&nbsp;pipelines</span>
+        </div>
+      </div>
+      <div class="gov-map__group">
+        <div class="gov-map__group-label">Teams &amp; tools</div>
+        <div class="gov-map__chips">
+          <span class="gov-chip"><img src="/img/logos/powerbi.svg" alt="" />Power BI</span>
+          <span class="gov-chip"><img src="/img/logos/tableau.svg" alt="" />Tableau</span>
+          <span class="gov-chip"><img src="/img/logos/grafana.svg" alt="" />Grafana</span>
+          <span class="gov-chip"><img src="/img/logos/jupyter.svg" alt="" />Notebooks</span>
+          <span class="gov-chip gov-chip--text">psql · apps</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="gov-map__flow" aria-hidden="true"><span></span><span>SQL — one PostgreSQL endpoint</span><span></span></div>
+
+    <div class="gov-map__waist-row">
+      <div class="gov-map__waist">
+        <img src="/octopus-mark-gradient.svg" alt="" width="30" height="30" />
+        <div>
+          <div class="gov-map__waist-name"><img src="/wordmark-white.svg" alt="Dataglot" width="84" height="18" /></div>
+          <div class="gov-map__waist-sub">policy compiled into every query plan — no path around it</div>
+        </div>
+      </div>
+      <div class="gov-map__gov">
+        <div class="gov-map__gov-arrows">
+          <span class="gov-map__gov-arrow">policies &amp; tags →</span>
+          <span class="gov-map__gov-arrow gov-map__gov-arrow--out">← lineage &amp; audit</span>
+        </div>
+        <div class="gov-map__gov-panel">
+          <div class="gov-map__group-label">Governance platform</div>
+          <div class="gov-map__chips">
+            <span class="gov-chip gov-chip--text">DataHub</span>
+            <span class="gov-chip gov-chip--text">Collibra</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="gov-map__flow" aria-hidden="true"><span></span><span>federated scans — masked columns never leave the source</span><span></span></div>
+
+    <div class="gov-map__group gov-map__group--sources">
+      <div class="gov-map__group-label">Your data, where it already lives</div>
+      <div class="gov-map__chips">
+        <span class="gov-chip"><img src="/img/logos/postgresql.svg" alt="" />PostgreSQL</span>
+        <span class="gov-chip"><img src="/img/logos/mysql.svg" alt="" />MySQL</span>
+        <span class="gov-chip"><img src="/img/logos/snowflake.svg" alt="" />Snowflake</span>
+        <span class="gov-chip"><img src="/img/logos/oracle-db.svg" alt="" />Oracle</span>
+        <span class="gov-chip"><img src="/img/logos/iceberg.svg" alt="" />Iceberg</span>
+        <span class="gov-chip"><img src="/img/logos/bucket.svg" alt="" />Object&nbsp;storage</span>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="section__inner">
+    <div class="split">
+      <div class="split__copy">
+        <span class="eyebrow">Governance</span>
+        <h2>The one line that cannot move</h2>
+        <p>
+          Most engines enforce policy by rewriting SQL after parsing, or filtering results after
+          execution. Dataglot compiles masks and row filters into the physical plan as typed
+          predicates pushed into the scan — a masked column is <strong>never fetched from
+          storage</strong>, on any code path, for any client.
+        </p>
+        <ul>
+          <li>Column masks and row filters as typed plan expressions, not string rewrites</li>
+          <li>Per-identity and per-organization policies driven by typed tags</li>
+          <li>Column-level OpenLineage emitted on every query; DataHub integration built in</li>
+          <li>Policies managed over plain SQL: <code>CREATE MASK</code>, <code>CREATE ROW FILTER</code>, <code>GRANT</code></li>
+        </ul>
+      </div>
+      <div class="split__panel">
+        <pre><code><span class="cm">-- policy is DDL, not a config file</span>
+<span class="kw">CREATE MASK</span> email_mask <span class="kw">ON COLUMNS TAGGED</span> <span class="st">'pii.email'</span>
+  <span class="kw">AS</span> <span class="st">'***@'</span> || split_part(email, <span class="st">'@'</span>, 2);
+
+<span class="kw">CREATE ROW FILTER</span> region_scope <span class="kw">ON</span> orders
+  <span class="kw">FOR ROLE</span> analyst <span class="kw">USING</span> region = current_org();
+
+<span class="cm">-- and enforcement is visible in the plan itself</span>
+<span class="kw">EXPLAIN</span> <span class="kw">SELECT</span> email <span class="kw">FROM</span> users;
+<span class="cm">└─ DataglotPolicyEnforcer: mask(email) pushed into scan</span></code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section__inner">
+    <div class="split split--flip">
+      <div class="split__copy">
+        <span class="eyebrow">Federation</span>
+        <h2>Pushdown you can see</h2>
+        <p>
+          Dataglot ships whole aggregations to your sources as native SQL — and
+          <code>EXPLAIN FEDERATION</code> shows you exactly what went where. No black box, no
+          "trust us" query planner.
+        </p>
+        <ul>
+          <li>PostgreSQL, MySQL, Oracle, Snowflake, S3/Parquet, Apache Iceberg, SAP/OData</li>
+          <li>Add sources at runtime with <code>CREATE CATALOG</code> — no restart, no config edit</li>
+          <li>One binary that scales from your laptop to a distributed cluster</li>
+          <li>No JVM anywhere — small footprint, fast starts, simple operations</li>
+        </ul>
+      </div>
+      <div class="split__panel">
+        <pre><code><span class="kw">EXPLAIN FEDERATION</span>
+<span class="kw">SELECT</span> user_id, <span class="kw">SUM</span>(amount) <span class="kw">AS</span> total_amount
+<span class="kw">FROM</span> pg_orders.public.orders
+<span class="kw">GROUP BY</span> user_id <span class="kw">ORDER BY</span> total_amount <span class="kw">DESC</span>;
+
+VirtualExecutionPlan name=postgres://…@postgres-orders:5432/demo
+  base_sql=<span class="st">SELECT "user_id", sum("amount") AS "total_amount"
+    FROM "public"."orders"
+    GROUP BY "user_id" ORDER BY "total_amount" DESC</span>
+<span class="cm">-- the whole aggregation shipped to the source, not just the scan</span></code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt section--center">
+  <div class="section__inner">
+    <span class="eyebrow">Why Dataglot</span>
+    <h2 class="section__title">Built for the data you're not allowed to move</h2>
+    <p class="section__lead">
+      Dataglot is the federated SQL engine for regulated environments — banking, insurance,
+      healthcare. It queries the sources your workloads actually run on, where copying the data
+      out is not an option and "we filter it in the app" is not an answer.
+    </p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+        <h3>Structural enforcement</h3>
+        <p>Masks and filters live in the plan, so there is no code path that returns ungoverned data — not a best-effort rewrite in front of the engine.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div>
+        <h3>Your data stays put</h3>
+        <p>Query Oracle, Snowflake, Postgres, MySQL, Iceberg and object storage in place. Federation pushdown does the heavy lifting at the source.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+        <h3>Rust-native, JVM-free</h3>
+        <p>A single static binary that starts in milliseconds and runs the CLI and REPL fully in-process — no cluster, no warm-up, no fleet of sidecars to get started.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div>
+        <h3>SQL-native control plane</h3>
+        <p><code>CREATE CATALOG</code>, <code>CREATE USER</code>, <code>GRANT</code>, <code>CREATE MASK</code> — the whole engine is administered over the same wire protocol you query with.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+        <h3>Enterprise auth, day one</h3>
+        <p>SCRAM-SHA-256, JWT, LDAP/Active Directory groups, TLS ingress, per-identity rate limits — the checklist regulated deployments actually get audited on.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+        <h3>Lineage on every query</h3>
+        <p>Column-level OpenLineage events emitted as queries run, and data products registered in DataHub. Your governance platform defines policy; Dataglot makes it a query-time guarantee.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--center">
+  <div class="section__inner">
+    <span class="eyebrow">Proof, not promises</span>
+    <h2 class="section__title">Tested like your queries depend on it</h2>
+    <p class="section__lead">
+      Every night, Dataglot runs differential tests against established SQL engines, TPC-H
+      baselines, and a browser testbench that compares results row by row across engines.
+    </p>
+    <div class="proof-strip">
+      <div class="proof-item">
+        <div class="proof-item__value gradient-text">Plan-time</div>
+        <div class="proof-item__label">masking — columns never leave storage</div>
+      </div>
+      <div class="proof-item">
+        <div class="proof-item__value gradient-text">TPC-H</div>
+        <div class="proof-item__label">nightly baselines, near-linear 4-worker scaling</div>
+      </div>
+      <div class="proof-item">
+        <div class="proof-item__value gradient-text">Differential</div>
+        <div class="proof-item__label">nightly result-diff runs against established engines</div>
+      </div>
+      <div class="proof-item">
+        <div class="proof-item__value gradient-text">0 JVMs</div>
+        <div class="proof-item__label">in the production runtime</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-banner">
+  <div class="cta-banner__box">
+    <h2>From install to governed query in five minutes</h2>
+    <p>Pull the image, point Dataglot at the databases you already run, and connect with any PostgreSQL client. No build step, no cluster to stand up.</p>
+    <div class="hero__ctas">
+      <a class="btn btn--primary btn--lg" href="/docs/getting-started/">Read the quickstart</a>
+      <a class="btn btn--ghost btn--lg" href="/guides/">Browse the guides</a>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var btn = document.getElementById("hero-install-copy");
+    var cmd = document.getElementById("hero-install-cmd");
+    if (!btn || !cmd || !navigator.clipboard) return;
+    var icons = btn.querySelectorAll("svg");
+    btn.addEventListener("click", function () {
+      navigator.clipboard.writeText(cmd.textContent.trim()).then(function () {
+        // SVG elements lack the HTML `hidden` IDL property — toggle the
+        // attribute explicitly.
+        icons[0].setAttribute("hidden", "");
+        icons[1].removeAttribute("hidden");
+        btn.classList.add("is-copied");
+        setTimeout(function () {
+          icons[0].removeAttribute("hidden");
+          icons[1].setAttribute("hidden", "");
+          btn.classList.remove("is-copied");
+        }, 1500);
+      });
+    });
+  })();
+</script>
+{% endblock content %}

@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" role="img"><style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}.mono-t{font-family:ui-monospace,Menlo,Consolas,monospace}</style><rect x="-10000" y="-10000" width="30000" height="30000" fill="#0e1120"/>
+      <title>Multiple compute engines reading the same Parquet files on S3</title>
+      
+      <g transform="translate(60, 40)">
+        <text x="0" y="0" class="mono-t" font-size="10" letter-spacing="2" fill="#9aa3c0">COMPUTE · ELASTIC · STATELESS</text>
+        <rect x="0"   y="20" width="180" height="80" fill="rgba(255,107,129,0.16)"/>
+        <text x="90"  y="48" text-anchor="middle" font-size="14" font-weight="700" fill="#eef0fa">Spark</text>
+        <text x="90"  y="68" text-anchor="middle" font-size="11" fill="#eef0fa">in-memory DAG</text>
+        <text x="90"  y="84" text-anchor="middle" font-size="11" fill="#eef0fa">batch + ML</text>
+
+        <rect x="220" y="20" width="180" height="80" fill="rgba(255,107,129,0.16)"/>
+        <text x="310" y="48" text-anchor="middle" font-size="14" font-weight="700" fill="#eef0fa">SQL engine</text>
+        <text x="310" y="68" text-anchor="middle" font-size="11" fill="#eef0fa">MPP SQL</text>
+        <text x="310" y="84" text-anchor="middle" font-size="11" fill="#eef0fa">interactive</text>
+
+        <rect x="440" y="20" width="180" height="80" fill="rgba(255,107,129,0.16)"/>
+        <text x="530" y="48" text-anchor="middle" font-size="14" font-weight="700" fill="#eef0fa">…anything else</text>
+        <text x="530" y="68" text-anchor="middle" font-size="11" fill="#eef0fa">DuckDB · Flink</text>
+        <text x="530" y="84" text-anchor="middle" font-size="11" fill="#eef0fa">Dataglot · …</text>
+      </g>
+
+      
+      <g stroke="#667090" stroke-width="1.5" fill="none">
+        <path d="M 150 145 L 150 200"/>
+        <path d="M 370 145 L 370 200"/>
+        <path d="M 590 145 L 590 200"/>
+      </g>
+      <g fill="#9aa3c0">
+        <polygon points="144,194 150,206 156,194"/>
+        <polygon points="364,194 370,206 376,194"/>
+        <polygon points="584,194 590,206 596,194"/>
+      </g>
+
+      
+      <rect x="60" y="200" width="640" height="34" fill="#060810" stroke="#2c3352" stroke-width="1.5"/>
+      <text x="80" y="222" class="mono-t" font-size="11" letter-spacing="2" fill="#f5b83d" font-weight="700">OPEN FORMAT</text>
+      <text x="220" y="222" font-size="13" fill="#eef0fa">Parquet on object storage. The contract is a file layout — not a vendor.</text>
+
+      
+      <g transform="translate(60, 254)">
+        <text x="0" y="0" class="mono-t" font-size="10" letter-spacing="2" fill="#9aa3c0">STORAGE · DURABLE · INDEPENDENT</text>
+        <rect y="14" width="640" height="80" fill="rgba(8,120,255,0.18)"/>
+        <text x="320" y="46" text-anchor="middle" font-size="14" font-weight="700" fill="#eef0fa">Object storage (S3 · GCS · ADLS · MinIO)</text>
+        <text x="320" y="68" text-anchor="middle" font-size="11" fill="#eef0fa">Parquet files</text>
+        <text x="320" y="86" text-anchor="middle" font-size="11" fill="#eef0fa">scaled independently · written once · read by many engines</text>
+      </g>
+    </svg>

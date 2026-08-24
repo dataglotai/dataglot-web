@@ -1,0 +1,401 @@
+// Docs shell: search bar, sidebar, main column, TOC, code-block toolbar.
+
+.docs-shell {
+  // Wider than the marketing pages' --max-width: reference docs are full of
+  // tables and code, and ~800px of content (~85ch) reads better than the
+  // classic 75ch prose ceiling once a sidebar and TOC flank it.
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.docs-searchbar {
+  padding: 20px 0 4px;
+
+  &__box {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  // Pagefind UI dark overrides
+  --pagefind-ui-primary: var(--link);
+  --pagefind-ui-text: var(--ink);
+  --pagefind-ui-background: var(--bg-raised);
+  --pagefind-ui-border: var(--border);
+  --pagefind-ui-tag: var(--bg-inset);
+  --pagefind-ui-border-width: 1px;
+  --pagefind-ui-border-radius: var(--radius-sm);
+  --pagefind-ui-font: var(--font-sans);
+
+  .pagefind-ui__result-link.is-kbd-active {
+    outline: 2px solid var(--blue);
+    border-radius: var(--radius-sm);
+  }
+
+  .pagefind-ui__drawer {
+    position: absolute;
+    z-index: 60;
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0 20px;
+    max-height: 60vh;
+    overflow-y: auto;
+    width: min(640px, calc(100vw - 48px));
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+  }
+}
+
+.docs-shell-wrapper {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+  padding-top: 20px;
+}
+
+.docs-nav-toggle {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  margin: 12px 0;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--ink);
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.docs-sidebar {
+  position: sticky;
+  top: calc(var(--header-height) + 16px);
+  width: 250px;
+  flex-shrink: 0;
+  max-height: calc(100vh - var(--header-height) - 32px);
+  overflow-y: auto;
+  padding-right: 8px;
+  scrollbar-width: thin;
+
+  &__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 0.9rem;
+  }
+
+  &__home {
+    font-weight: 600;
+    color: var(--ink);
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 8px;
+
+    &.is-active {
+      background: var(--bg-raised);
+      color: var(--cyan);
+    }
+  }
+
+  &__section {
+    margin-bottom: 2px;
+  }
+
+  &__tab {
+    display: block;
+    font-weight: 600;
+    color: var(--ink);
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    list-style: none;
+
+    &::-webkit-details-marker { display: none; }
+
+    &:hover {
+      background: var(--bg-raised);
+    }
+
+    &--external {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+  }
+
+  &__group {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-faint);
+    padding: 10px 10px 4px 18px;
+  }
+
+  &__link {
+    display: block;
+    color: var(--ink-muted);
+    padding: 5px 10px 5px 18px;
+    border-left: 1px solid var(--border);
+    margin-left: 14px;
+
+    &:hover {
+      color: var(--ink);
+    }
+
+    &.is-active {
+      color: var(--cyan);
+      border-left-color: var(--cyan);
+      font-weight: 500;
+    }
+  }
+}
+
+.docs-main {
+  flex: 1;
+  min-width: 0;
+  padding-bottom: 64px;
+}
+
+.docs-main-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.guides-page-main-header-links {
+  font-size: 0.85rem;
+  color: var(--ink-faint);
+  margin: 4px 0 12px;
+
+  a {
+    color: var(--ink-muted);
+    &:hover { color: var(--ink); }
+  }
+}
+
+.guides-page-main-title {
+  font-size: 2.1rem;
+  margin: 0 0 8px;
+}
+
+.guides-page-main-summary {
+  font-size: 1.1rem;
+  color: var(--ink-muted);
+  margin: 0 0 24px;
+}
+
+.guides-copy-md {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--ink-muted);
+  font-size: 0.82rem;
+  padding: 6px 12px;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--ink);
+    border-color: var(--border-strong);
+  }
+
+  svg { flex-shrink: 0; }
+}
+
+.guides-page-toc {
+  position: sticky;
+  top: calc(var(--header-height) + 16px);
+  width: 220px;
+  flex-shrink: 0;
+  max-height: calc(100vh - var(--header-height) - 32px);
+  overflow-y: auto;
+  font-size: 0.85rem;
+  scrollbar-width: thin;
+
+  @media (max-width: 1100px) {
+    display: none;
+  }
+}
+
+.guides-page-toc-title {
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 10px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.guides-page-toc-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.guides-page-toc-item {
+  margin: 6px 0;
+
+  a {
+    color: var(--ink-muted);
+    &:hover { color: var(--ink); }
+  }
+
+  &--sub {
+    padding-left: 14px;
+  }
+}
+
+@media (max-width: 900px) {
+  .docs-shell-wrapper {
+    flex-direction: column;
+    // In column direction the cross axis is horizontal: flex-start would size
+    // children to their content (a long code line widens the whole page).
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .docs-main {
+    max-width: 100%;
+  }
+
+  .docs-nav-toggle {
+    display: inline-flex;
+  }
+
+  .docs-sidebar {
+    display: none;
+    position: static;
+    width: 100%;
+    max-height: none;
+
+    &.is-open {
+      display: block;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px;
+      margin-bottom: 16px;
+    }
+  }
+}
+
+// --- Code block chrome (built by guides.js) ----------------------------
+
+.code-block {
+  margin: 1.4em 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+
+  pre {
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+  }
+}
+
+.code-block__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--bg-raised);
+  border-bottom: 1px solid var(--border);
+  padding: 6px 12px;
+  min-height: 36px;
+}
+
+.code-block__lang {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--ink-faint);
+}
+
+.code-block__actions {
+  display: flex;
+  gap: 6px;
+}
+
+.code-block__btn {
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  color: var(--ink-faint);
+  font-size: 0.78rem;
+  padding: 3px 10px;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--ink);
+    background: var(--bg-inset);
+  }
+
+  &.is-active,
+  &.is-copied {
+    color: var(--cyan);
+  }
+}
+
+.code-block__tabs {
+  display: flex;
+  gap: 2px;
+  overflow-x: auto;
+}
+
+.code-block__tab {
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  color: var(--ink-muted);
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 6px 12px;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &.is-active {
+    color: var(--ink);
+    border-bottom-color: var(--cyan);
+  }
+}
+
+.code-tabs,
+.content-tabs {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin: 1.4em 0;
+
+  // Hide panels until JS activates one (no flash of all panels)
+  &.tabs--ready .tabs__panel {
+    display: none;
+
+    &.is-active {
+      display: block;
+    }
+  }
+
+  pre {
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .content-tabs__panel {
+    padding: 4px 16px;
+  }
+
+  .content-tabs__panel > pre {
+    margin: 12px -16px;
+  }
+}
+
+pre.is-wrapped code,
+.is-wrapped pre code {
+  white-space: pre-wrap;
+  word-break: break-word;
+}

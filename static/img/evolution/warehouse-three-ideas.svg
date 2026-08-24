@@ -1,0 +1,47 @@
+<?xml version="1.0" ?><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 360" role="img"><style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}.mono-t{font-family:ui-monospace,Menlo,Consolas,monospace}</style><rect x="-10000" y="-10000" width="30000" height="30000" fill="#0e1120"/>
+      <title>Two databases connected by ETL</title>
+      
+      <g transform="translate(60, 60)">
+        <rect width="240" height="240" fill="#141830" stroke="#2c3352" stroke-width="2"/>
+        <text x="120" y="28" text-anchor="middle" class="mono-t" font-size="10" letter-spacing="2" fill="#9aa3c0">OLTP</text>
+        <text x="120" y="56" text-anchor="middle" class="serif-t" font-size="20" font-weight="700" fill="#eef0fa">Operational DB</text>
+
+        <rect x="30" y="80" width="180" height="36" fill="rgba(47,214,147,0.16)"/>
+        <text x="120" y="103" text-anchor="middle" font-size="12" font-weight="600" fill="#eef0fa">CATALOG</text>
+        <rect x="30" y="124" width="180" height="36" fill="rgba(255,107,129,0.16)"/>
+        <text x="120" y="147" text-anchor="middle" font-size="12" font-weight="600" fill="#eef0fa">COMPUTE</text>
+        <rect x="30" y="168" width="180" height="36" fill="rgba(8,120,255,0.18)"/>
+        <text x="120" y="191" text-anchor="middle" font-size="12" font-weight="600" fill="#eef0fa">STORAGE</text>
+
+        <text x="120" y="225" text-anchor="middle" font-size="10" class="mono-t" fill="#9aa3c0">row-based · ACID</text>
+      </g>
+
+      
+      <g transform="translate(310, 165)">
+        <line x1="0" y1="15" x2="170" y2="15" stroke="#667090" stroke-width="2"/>
+        <polygon points="170,9 180,15 170,21" fill="#9aa3c0"/>
+        <rect x="65" y="0" width="50" height="30" fill="#141830" stroke="#2c3352" stroke-width="1.5"/>
+        <text x="90" y="20" text-anchor="middle" class="mono-t" font-size="11" font-weight="700" fill="#eef0fa">ETL</text>
+        <text x="90" y="48" text-anchor="middle" class="mono-t" font-size="9" fill="#9aa3c0" letter-spacing="1.5">NIGHTLY · BATCH</text>
+      </g>
+
+      
+      <g transform="translate(500, 60)">
+        <rect width="240" height="240" fill="#141830" stroke="#2c3352" stroke-width="2"/>
+        <text x="120" y="28" text-anchor="middle" class="mono-t" font-size="10" letter-spacing="2" fill="#9aa3c0">OLAP</text>
+        <text x="120" y="56" text-anchor="middle" class="serif-t" font-size="20" font-weight="700" fill="#eef0fa">Data Warehouse</text>
+
+        <rect x="30" y="80" width="180" height="36" fill="rgba(47,214,147,0.16)"/>
+        <text x="120" y="103" text-anchor="middle" font-size="12" font-weight="600" fill="#eef0fa">CATALOG</text>
+        <rect x="30" y="124" width="180" height="36" fill="rgba(255,107,129,0.16)"/>
+        <text x="120" y="147" text-anchor="middle" font-size="12" font-weight="600" fill="#eef0fa">COMPUTE</text>
+        <rect x="30" y="168" width="180" height="36" fill="rgba(8,120,255,0.18)"/>
+        <text x="120" y="191" text-anchor="middle" font-size="12" font-weight="600" fill="#eef0fa">STORAGE</text>
+
+        <text x="120" y="225" text-anchor="middle" font-size="10" class="mono-t" fill="#9aa3c0">column-based · MPP</text>
+      </g>
+
+      
+      <text x="180" y="330" text-anchor="middle" font-size="11" fill="#9aa3c0">cash registers · order entry · transactions</text>
+      <text x="620" y="330" text-anchor="middle" font-size="11" fill="#9aa3c0">CFO · BI · dashboards · reports</text>
+    </svg>

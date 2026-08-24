@@ -1,0 +1,76 @@
+<?xml version="1.0" ?><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 400" role="img"><style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}.mono-t{font-family:ui-monospace,Menlo,Consolas,monospace}</style><rect x="-10000" y="-10000" width="30000" height="30000" fill="#0e1120"/>
+      <title>Comparison of Iceberg, Delta Lake, and Hudi</title>
+
+      
+      <line x1="200" y1="68" x2="200" y2="350" stroke="#667090" stroke-width="0.5" stroke-dasharray="2 3"/>
+      <line x1="440" y1="68" x2="440" y2="350" stroke="#667090" stroke-width="0.5" stroke-dasharray="2 3"/>
+      <line x1="680" y1="68" x2="680" y2="350" stroke="#667090" stroke-width="0.5" stroke-dasharray="2 3"/>
+
+      
+      <g>
+        <text x="320" y="36" text-anchor="middle" font-size="18" font-weight="700" class="serif-t" fill="#eef0fa">Iceberg</text>
+        <text x="320" y="54" text-anchor="middle" font-size="11" class="mono-t" fill="#9aa3c0" letter-spacing="1">Netflix · 2017 · Apache</text>
+
+        <text x="560" y="36" text-anchor="middle" font-size="18" font-weight="700" class="serif-t" fill="#eef0fa">Delta Lake</text>
+        <text x="560" y="54" text-anchor="middle" font-size="11" class="mono-t" fill="#9aa3c0" letter-spacing="1">Databricks · 2017 · Linux Foundation</text>
+
+        <text x="800" y="36" text-anchor="middle" font-size="18" font-weight="700" class="serif-t" fill="#eef0fa">Apache Hudi</text>
+        <text x="800" y="54" text-anchor="middle" font-size="11" class="mono-t" fill="#9aa3c0" letter-spacing="1">Uber · 2016 · Apache</text>
+      </g>
+
+      
+      <line x1="20" y1="68" x2="900" y2="68" stroke="#667090" stroke-width="1.5"/>
+      <line x1="20" y1="350" x2="900" y2="350" stroke="#667090" stroke-width="1.5"/>
+
+      
+      <g class="mono-t" font-size="10" fill="#9aa3c0" letter-spacing="1.5" font-weight="700">
+        <text x="30" y="100">ORIGIN</text>
+        <text x="30" y="142">SWEET SPOT</text>
+        <text x="30" y="184">ENGINE NEUTRALITY</text>
+        <text x="30" y="226">METADATA MODEL</text>
+        <text x="30" y="268">UPSERTS / DELETES</text>
+        <text x="30" y="310">TIME TRAVEL</text>
+      </g>
+
+      
+      <g stroke="#667090" stroke-width="0.5" opacity="0.15">
+        <line x1="20" y1="116" x2="900" y2="116"/>
+        <line x1="20" y1="158" x2="900" y2="158"/>
+        <line x1="20" y1="200" x2="900" y2="200"/>
+        <line x1="20" y1="242" x2="900" y2="242"/>
+        <line x1="20" y1="284" x2="900" y2="284"/>
+      </g>
+
+      
+      <g font-size="12" text-anchor="middle">
+        <text x="320" y="100" fill="#9aa3c0">Petabyte analytics · Netflix</text>
+        <text x="320" y="142" fill="#9aa3c0">Massive analytical tables</text>
+        <text x="320" y="184" font-weight="700" fill="#2fd693">Engine-neutral by design</text>
+        <text x="320" y="226" fill="#9aa3c0">Hierarchical · pointer-swap</text>
+        <text x="320" y="268" fill="#9aa3c0">Yes · v2 spec</text>
+        <text x="320" y="310" fill="#9aa3c0">Snapshot-based</text>
+      </g>
+
+      
+      <g font-size="12" text-anchor="middle">
+        <text x="560" y="100" fill="#9aa3c0">Spark / Databricks</text>
+        <text x="560" y="142" fill="#9aa3c0">Spark-first workloads</text>
+        <text x="560" y="184" fill="#9aa3c0">Improving · was Spark-tied</text>
+        <text x="560" y="226" fill="#9aa3c0">Linear log of operations</text>
+        <text x="560" y="268" fill="#9aa3c0">Yes · MERGE INTO</text>
+        <text x="560" y="310" fill="#9aa3c0">Version-based</text>
+      </g>
+
+      
+      <g font-size="12" text-anchor="middle">
+        <text x="800" y="100" fill="#9aa3c0">Streaming upserts · Uber</text>
+        <text x="800" y="142" fill="#9aa3c0">CDC · row-level updates</text>
+        <text x="800" y="184" fill="#9aa3c0">Mixed</text>
+        <text x="800" y="226" fill="#9aa3c0">Timeline · MoR / CoW</text>
+        <text x="800" y="268" font-weight="700" fill="#2fd693">First-class</text>
+        <text x="800" y="310" fill="#9aa3c0">Commit-based</text>
+      </g>
+
+      
+      <text x="460" y="380" text-anchor="middle" font-size="11" class="mono-t" fill="#9aa3c0" letter-spacing="1.5">CONVERGING · ALL THREE NOW SUPPORT THE OTHERS' CORE FEATURES VIA CROSS-FORMAT READS</text>
+    </svg>

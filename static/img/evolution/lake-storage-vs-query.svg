@@ -1,0 +1,67 @@
+<?xml version="1.0" ?><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 380" role="img"><style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}.mono-t{font-family:ui-monospace,Menlo,Consolas,monospace}</style><rect x="-10000" y="-10000" width="30000" height="30000" fill="#0e1120"/>
+      <title>Hive query compilation pipeline showing SQL becoming chained MapReduce jobs</title>
+
+      
+      <g transform="translate(40, 30)">
+        <rect width="280" height="80" fill="#141830" stroke="#2c3352" stroke-width="2"/>
+        <text x="16" y="22" class="mono-t" font-size="10" letter-spacing="1.5" fill="#9aa3c0">HIVEQL · INPUT</text>
+        <text x="16" y="48" class="mono-t" font-size="13" fill="#eef0fa">SELECT region, SUM(amt)</text>
+        <text x="16" y="66" class="mono-t" font-size="13" fill="#eef0fa">FROM orders GROUP BY region;</text>
+      </g>
+
+      
+      <g>
+        <line x1="320" y1="70" x2="370" y2="70" stroke="#667090" stroke-width="2"/>
+        <polygon points="370,64 380,70 370,76" fill="#9aa3c0"/>
+        <text x="345" y="48" text-anchor="middle" class="mono-t" font-size="9" fill="#9aa3c0" letter-spacing="1">COMPILE</text>
+      </g>
+
+      
+      <g transform="translate(390, 30)">
+        <rect width="160" height="80" fill="#141830" stroke="#2c3352" stroke-width="2"/>
+        <text x="80" y="20" text-anchor="middle" class="mono-t" font-size="10" letter-spacing="1.5" fill="#9aa3c0">MR STAGE 01</text>
+        <text x="80" y="44" text-anchor="middle" font-size="13" font-weight="600" fill="#eef0fa">Map → Reduce</text>
+        <text x="80" y="64" text-anchor="middle" font-size="11" fill="#9aa3c0">scan · key by region · sum</text>
+      </g>
+
+      
+      <g>
+        <line x1="550" y1="70" x2="590" y2="70" stroke="#ff6b81" stroke-width="2"/>
+        <polygon points="590,64 600,70 590,76" fill="#ff6b81"/>
+        <text x="555" y="48" text-anchor="start" class="mono-t" font-size="9" fill="#ff6b81" letter-spacing="1" font-weight="700">DISK I/O</text>
+      </g>
+
+      
+      <g transform="translate(610, 30)">
+        <rect width="160" height="80" fill="#141830" stroke="#2c3352" stroke-width="2"/>
+        <text x="80" y="20" text-anchor="middle" class="mono-t" font-size="10" letter-spacing="1.5" fill="#9aa3c0">MR STAGE 02</text>
+        <text x="80" y="44" text-anchor="middle" font-size="13" font-weight="600" fill="#eef0fa">Map → Reduce</text>
+        <text x="80" y="64" text-anchor="middle" font-size="11" fill="#9aa3c0">final sort · output</text>
+      </g>
+
+      
+      <line x1="690" y1="120" x2="690" y2="170" stroke="#667090" stroke-width="2"/>
+      <polygon points="684,164 690,176 696,164" fill="#9aa3c0"/>
+
+      
+      <g transform="translate(610, 180)">
+        <rect width="160" height="50" fill="#141830" stroke="#2c3352" stroke-width="2"/>
+        <text x="80" y="20" text-anchor="middle" class="mono-t" font-size="10" letter-spacing="1.5" fill="#9aa3c0">RESULT</text>
+        <text x="80" y="40" text-anchor="middle" font-size="13" font-weight="600" fill="#eef0fa">rows on disk</text>
+      </g>
+
+      
+      <g transform="translate(40, 180)">
+        <rect width="540" height="50" fill="rgba(255,107,129,0.12)" stroke="#ff6b81" stroke-width="1.5" stroke-dasharray="3 3"/>
+        <text x="20" y="22" class="mono-t" font-size="10" letter-spacing="1.5" font-weight="700" fill="#ff6b81">EVERY STAGE BOUNDARY HITS DISK</text>
+        <text x="20" y="40" font-size="12" fill="#eef0fa">map → spill → shuffle → reduce → write → next stage reads from disk again</text>
+      </g>
+
+      
+      <g transform="translate(40, 270)">
+        <rect width="740" height="84" fill="#060810" stroke="#2c3352" stroke-width="1.5"/>
+        <text x="20" y="30" class="mono-t" font-size="10" fill="#f5b83d" letter-spacing="2" font-weight="700">SLOW BUT CORRECT</text>
+        <text x="20" y="54" font-size="13" fill="#eef0fa">Batch jobs ran fine. Interactive analytics didn't exist.</text>
+        <text x="20" y="74" font-size="11" fill="#eef0fa" class="mono-t">→ the next generation (Spark and friends) kept state in memory between stages</text>
+      </g>
+    </svg>

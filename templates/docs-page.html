@@ -1,0 +1,50 @@
+{% extends "base.html" %} {% block content %}
+<section class="docs-shell">
+  {% include "docs-search.html" %}
+  <div class="docs-shell-wrapper">
+    {% include "docs-sidebar.html" %}
+    <div class="docs-main" {% if not page.extra.searchExclude %}data-pagefind-body data-pagefind-filter="section:Docs"{% endif %}>
+      <div class="docs-main-header" data-pagefind-ignore>
+        <div class="guides-page-main-header-links">
+          <a href="/">Home</a> / <a href="/docs/">Docs</a> /
+          <span>{{ page.title }}</span>
+        </div>
+        <div class="docs-main-header-meta">
+          {% set raw_md = load_data(path="content/" ~ page.relative_path, format="plain") %}
+          <button class="guides-copy-md" id="guides-copy-md" type="button" data-md="{{ raw_md | base64_encode | safe }}">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <span class="guides-copy-md-label">Copy as Markdown</span>
+          </button>
+        </div>
+      </div>
+
+      <h1 class="guides-page-main-title">{{ page.title }}</h1>
+      {% if page.description %}
+      <p class="guides-page-main-summary">{{ page.description | markdown(inline=true) | safe }}</p>
+      {% endif %}
+
+      <div class="guides-page-main-content prose" id="guides-content">
+        {{ page.content | safe }}
+      </div>
+    </div>
+
+    {% if page.toc %}
+    <aside class="guides-page-toc docs-toc" id="guides-toc">
+      <div class="guides-page-toc-title">On this page</div>
+      <ul class="guides-page-toc-list">
+        {% for h1 in page.toc %}
+        <li class="guides-page-toc-item">
+          <a href="{{ h1.permalink | safe }}">{{ h1.title }}</a>
+        </li>
+        {% if h1.children %} {% for h2 in h1.children %}
+        <li class="guides-page-toc-item guides-page-toc-item--sub">
+          <a href="{{ h2.permalink | safe }}">{{ h2.title }}</a>
+        </li>
+        {% endfor %} {% endif %} {% endfor %}
+      </ul>
+    </aside>
+    {% endif %}
+  </div>
+</section>
+<script src="{{ get_url(path='js/guides.js', cachebust=true) | safe }}" type="text/javascript" defer></script>
+{% endblock content %}

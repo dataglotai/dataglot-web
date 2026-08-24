@@ -1,0 +1,16 @@
+{
+  "name": "dataglot-web",
+  "version": "0.1.0",
+  "private": true,
+  "description": "dataglot.ai — static site (Zola + Pagefind + llms.txt pipeline)",
+  "scripts": {
+    "build": "./build.sh",
+    "dev": "zola serve"
+  },
+  "devDependencies": {
+    "cheerio": "^1.0.0",
+    "fast-glob": "^3.3.2",
+    "turndown": "^7.2.0",
+    "xml2js": "^0.6.2"
+  }
+}

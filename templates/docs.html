@@ -1,0 +1,47 @@
+{% extends "base.html" %} {% block content %}
+{% set nav = load_data(path="templates/data/docs-nav.json") %}
+<section class="docs-shell">
+  {% include "docs-search.html" %}
+  <div class="docs-shell-wrapper">
+    {% include "docs-sidebar.html" %}
+    <div class="docs-main">
+      <div class="guides-page-main-header-links">
+        <a href="/">Home</a> / <span>Docs</span>
+      </div>
+      <h1 class="guides-page-main-title">{{ section.title | default(value="Documentation") }}</h1>
+      <p class="guides-page-main-summary">{{ section.description }}</p>
+      <div class="guides-page-main-content prose" id="guides-content">
+        {{ section.content | safe }}
+        <h2>Browse all sections</h2>
+        <div class="guide-cards">
+          {% for tab in nav.tabs %}
+          {% if tab.groups %}
+          {% set first_group = tab.groups | first %}
+          {% set first = first_group.pages | first %}
+          <a class="guide-card-link" href="{{ first.url }}">
+            <span class="guide-card-link__text">
+              <span class="guide-card-link__title">{{ tab.name }}</span>
+              <span class="guide-card-link__desc">{{ tab.description | default(value=first.title ~ " and more.") }}</span>
+            </span>
+            <span class="guide-card-link__arrow" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </span>
+          </a>
+          {% endif %}
+          {% endfor %}
+          <a class="guide-card-link" href="/guides/">
+            <span class="guide-card-link__text">
+              <span class="guide-card-link__title">Guides</span>
+              <span class="guide-card-link__desc">Hands-on tutorials: your first federated query and plan-time governance.</span>
+            </span>
+            <span class="guide-card-link__arrow" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script src="{{ get_url(path='js/guides.js', cachebust=true) | safe }}" type="text/javascript" defer></script>
+{% endblock content %}

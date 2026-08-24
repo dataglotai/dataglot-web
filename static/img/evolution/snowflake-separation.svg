@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" role="img"><style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}.mono-t{font-family:ui-monospace,Menlo,Consolas,monospace}</style><rect x="-10000" y="-10000" width="30000" height="30000" fill="#0e1120"/>
+      <title>Snowflake's three-layer architecture: services, compute, storage</title>
+      
+      <g transform="translate(60, 40)">
+        <rect width="640" height="70" fill="rgba(47,214,147,0.16)"/>
+        <text x="20" y="26" class="mono-t" font-size="10" letter-spacing="2" fill="#eef0fa">LAYER 01 · CATALOG / SERVICES</text>
+        <text x="20" y="56" font-size="16" font-weight="700" fill="#eef0fa">Cloud services · metadata · auth · optimizer · transactions</text>
+      </g>
+
+      
+      <g transform="translate(60, 130)">
+        <text x="0" y="-4" class="mono-t" font-size="10" letter-spacing="2" fill="#9aa3c0">LAYER 02 · COMPUTE · ELASTIC POOLS</text>
+        <rect x="0"   y="6" width="200" height="80" fill="rgba(255,107,129,0.16)"/>
+        <text x="100" y="36" text-anchor="middle" font-size="14" font-weight="700" fill="#eef0fa">Warehouse A</text>
+        <text x="100" y="58" text-anchor="middle" font-size="11" fill="#eef0fa">BI team</text>
+        <text x="100" y="74" text-anchor="middle" font-size="11" fill="#eef0fa">spin up · spin down</text>
+
+        <rect x="220" y="6" width="200" height="80" fill="rgba(255,107,129,0.16)"/>
+        <text x="320" y="36" text-anchor="middle" font-size="14" font-weight="700" fill="#eef0fa">Warehouse B</text>
+        <text x="320" y="58" text-anchor="middle" font-size="11" fill="#eef0fa">data science</text>
+        <text x="320" y="74" text-anchor="middle" font-size="11" fill="#eef0fa">no contention</text>
+
+        <rect x="440" y="6" width="200" height="80" fill="rgba(255,107,129,0.16)"/>
+        <text x="540" y="36" text-anchor="middle" font-size="14" font-weight="700" fill="#eef0fa">Warehouse C</text>
+        <text x="540" y="58" text-anchor="middle" font-size="11" fill="#eef0fa">ETL · loading</text>
+        <text x="540" y="74" text-anchor="middle" font-size="11" fill="#eef0fa">size to workload</text>
+      </g>
+
+      
+      <g stroke="#667090" stroke-width="1.5" fill="none" stroke-dasharray="3 3">
+        <path d="M 160 230 L 160 270"/>
+        <path d="M 380 230 L 380 270"/>
+        <path d="M 600 230 L 600 270"/>
+      </g>
+
+      
+      <g transform="translate(60, 270)">
+        <rect width="640" height="80" fill="rgba(8,120,255,0.18)"/>
+        <text x="20" y="26" class="mono-t" font-size="10" letter-spacing="2" fill="#eef0fa">LAYER 03 · STORAGE · S3 UNDER THE HOOD</text>
+        <text x="320" y="56" text-anchor="middle" font-size="14" font-weight="700" fill="#eef0fa">Single shared dataset</text>
+        <text x="320" y="74" text-anchor="middle" font-size="11" fill="#eef0fa">all warehouses see the same data · zero copy</text>
+      </g>
+    </svg>

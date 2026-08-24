@@ -1,0 +1,10 @@
+{% extends "base.html" %} {% block content %}
+<article class="article">
+  <h1 class="article__title">{{ page.title }}</h1>
+  {% if page.description %}<p class="article__summary">{{ page.description }}</p>{% endif %}
+  <div class="prose" id="guides-content">
+    {{ page.content | safe }}
+  </div>
+</article>
+<script src="{{ get_url(path='js/guides.js', cachebust=true) | safe }}" type="text/javascript" defer></script>
+{% endblock content %}

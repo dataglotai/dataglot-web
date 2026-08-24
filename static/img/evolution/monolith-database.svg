@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 360" role="img" aria-labelledby="d1-title"><style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}.mono-t{font-family:ui-monospace,Menlo,Consolas,monospace}</style><rect x="-10000" y="-10000" width="30000" height="30000" fill="#0e1120"/>
+      <title id="d1-title">A single database box containing Catalog, Compute, and Storage stacked together</title>
+      
+      <rect x="200" y="40" width="300" height="280" fill="#141830" stroke="#2c3352" stroke-width="2"/>
+      <text x="350" y="68" text-anchor="middle" class="mono-t" font-size="11" letter-spacing="2" fill="#9aa3c0">DATABASE</text>
+      <line x1="220" y1="80" x2="480" y2="80" stroke="#667090" stroke-width="0.5" stroke-dasharray="2 2"/>
+
+      
+      <rect x="230" y="100" width="240" height="55" fill="rgba(47,214,147,0.16)" stroke="#2fd693"/>
+      <text x="350" y="135" text-anchor="middle" font-size="14" font-weight="600" fill="#eef0fa">CATALOG</text>
+
+      
+      <rect x="230" y="165" width="240" height="55" fill="rgba(255,107,129,0.16)" stroke="#ff6b81"/>
+      <text x="350" y="200" text-anchor="middle" font-size="14" font-weight="600" fill="#eef0fa">COMPUTE</text>
+
+      
+      <rect x="230" y="230" width="240" height="55" fill="rgba(8,120,255,0.18)" stroke="#0878FF"/>
+      <text x="350" y="265" text-anchor="middle" font-size="14" font-weight="600" fill="#eef0fa">STORAGE</text>
+
+      
+      <g transform="translate(540, 160)">
+        <circle r="34" fill="#060810" stroke="#2c3352" stroke-width="1.5"/>
+        <text y="-2" text-anchor="middle" font-size="14" font-weight="700" fill="#f5b83d" class="mono-t">ACID</text>
+        <text y="14" text-anchor="middle" font-size="8" fill="#eef0fa" class="mono-t" letter-spacing="1.5">CONTRACT</text>
+      </g>
+      <line x1="500" y1="180" x2="510" y2="170" stroke="#667090" stroke-width="1"/>
+
+      
+      <text x="180" y="135" text-anchor="end" font-size="11" fill="#9aa3c0" class="mono-t">schema · stats</text>
+      <text x="180" y="200" text-anchor="end" font-size="11" fill="#9aa3c0" class="mono-t">parser · planner · exec</text>
+      <text x="180" y="265" text-anchor="end" font-size="11" fill="#9aa3c0" class="mono-t">B-tree · row pages</text>
+
+      
+      <line x1="200" y1="320" x2="500" y2="320" stroke="#667090" stroke-width="0.5"/>
+      <text x="350" y="340" text-anchor="middle" font-size="10" fill="#9aa3c0" class="mono-t" letter-spacing="2">ONE PROCESS · ONE MACHINE</text>
+    </svg>

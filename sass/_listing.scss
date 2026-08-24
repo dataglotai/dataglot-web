@@ -1,0 +1,381 @@
+// Blog + guides listing and article pages
+
+.listing {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 56px 24px;
+
+  &__title {
+    font-size: 2.3rem;
+    margin: 0 0 8px;
+  }
+
+  &__sub {
+    color: var(--ink-muted);
+    font-size: 1.1rem;
+    margin: 0 0 40px;
+  }
+}
+
+.filter-bar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.filter-pill {
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  color: var(--ink-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 7px 16px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    color: var(--ink);
+    border-color: var(--border-strong);
+  }
+
+  &.is-active {
+    color: var(--ink);
+    border-color: var(--blue);
+    background: rgba(8, 120, 255, 0.12);
+  }
+
+  &__count {
+    color: var(--ink-faint);
+    font-size: 0.78rem;
+    margin-left: 4px;
+  }
+}
+
+.blog-empty {
+  color: var(--ink-faint);
+  padding: 32px 0;
+}
+
+.post-card__author {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+}
+
+.post-card__avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--gradient);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.post-card {
+  display: block;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--border);
+
+  &:hover .post-card__title {
+    color: var(--link-hover);
+  }
+
+  &__meta {
+    font-size: 0.82rem;
+    color: var(--ink-faint);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+
+  &__tag {
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 1px 10px;
+    color: var(--ink-muted);
+  }
+
+  &__title {
+    font-size: 1.3rem;
+    font-weight: 650;
+    color: var(--ink);
+    margin: 0 0 6px;
+    letter-spacing: -0.015em;
+  }
+
+  &__summary {
+    color: var(--ink-muted);
+    font-size: 0.95rem;
+    margin: 0;
+  }
+}
+
+// Guides listing — an editorial list, not a tile grid.
+
+.listing--guides {
+  max-width: 880px;
+  // Align the search box with the docs pages: same 20px offset under the
+  // header (the .listing top padding would push it 56px lower).
+  padding-top: 0;
+
+  .docs-searchbar {
+    margin-bottom: 32px;
+  }
+}
+
+.guide-list {
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+}
+
+.guide-row {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 30px 20px;
+  border-bottom: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: background 0.15s ease;
+
+  &:first-child {
+    border-top: 1px solid var(--border);
+  }
+
+  &:hover {
+    background: var(--bg-raised);
+
+    .guide-row__arrow {
+      color: var(--cyan);
+      transform: translateX(4px);
+    }
+
+    .guide-row__title {
+      color: var(--link-hover);
+    }
+  }
+
+  &__num {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    color: var(--ink-faint);
+    flex-shrink: 0;
+    width: 34px;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__meta {
+    display: flex;
+    gap: 14px;
+    font-size: 0.78rem;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  &__topic {
+    color: var(--cyan);
+    font-weight: 600;
+  }
+
+  &__title {
+    font-size: 1.35rem;
+    font-weight: 650;
+    color: var(--ink);
+    letter-spacing: -0.015em;
+    transition: color 0.15s ease;
+  }
+
+  &__desc {
+    color: var(--ink-muted);
+    font-size: 0.97rem;
+
+    code {
+      font-size: 0.85em;
+    }
+  }
+
+  &__arrow {
+    color: var(--ink-faint);
+    flex-shrink: 0;
+    transition: color 0.15s ease, transform 0.15s ease;
+  }
+
+  @media (max-width: 640px) {
+    gap: 16px;
+    padding: 24px 12px;
+
+    &__num {
+      display: none;
+    }
+  }
+}
+
+// Inline "Contents" block at the top of long articles.
+.article-contents {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-raised);
+  padding: 20px 24px;
+  margin: 0 0 36px;
+
+  &__title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-faint);
+    margin-bottom: 12px;
+  }
+
+  &__list {
+    margin: 0;
+    padding-left: 20px;
+    font-size: 0.92rem;
+
+    li {
+      margin: 5px 0;
+    }
+
+    a {
+      color: var(--link);
+      &:hover {
+        color: var(--link-hover);
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.article-toc-rail__top {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: var(--ink-faint);
+  margin-bottom: 12px;
+
+  &:hover {
+    color: var(--ink);
+  }
+}
+
+// The docked right rail the Contents block hands off to on scroll —
+// same look/position as the docs & guides TOC.
+.article-toc-rail {
+  position: fixed;
+  top: calc(var(--header-height) + 24px);
+  right: max(24px, calc((100vw - 1400px) / 2 + 24px));
+  width: 230px;
+  max-height: calc(100vh - var(--header-height) - 48px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  opacity: 0;
+  transform: translateY(6px);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+
+  &.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  a.is-active {
+    color: var(--cyan);
+    font-weight: 600;
+  }
+
+  // Hide when the rail would collide with the 760px article column.
+  @media (max-width: 1260px) {
+    display: none;
+  }
+}
+
+.article {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 56px 24px;
+
+  &__meta {
+    font-size: 0.875rem;
+    color: var(--ink-faint);
+    margin-bottom: 12px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  &__title {
+    font-size: clamp(1.9rem, 4vw, 2.5rem);
+    margin: 0 0 12px;
+  }
+
+  &__summary {
+    font-size: 1.15rem;
+    color: var(--ink-muted);
+    margin: 0 0 32px;
+  }
+
+  &__footer {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 0.95rem;
+  }
+}
+
+.series-nav {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-raised);
+  padding: 16px 20px;
+  margin: 0 0 32px;
+  font-size: 0.9rem;
+
+  &__title {
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  ol {
+    margin: 0;
+    padding-left: 20px;
+    color: var(--ink-muted);
+
+    li { margin: 4px 0; }
+
+    .is-current {
+      color: var(--cyan);
+      font-weight: 600;
+    }
+  }
+}
+
+// Per-category chip colors (after the base tag style so they win).
+.post-card__tag--announcements { border-color: rgba(139, 44, 246, 0.5); color: #c9a1ff; }
+.post-card__tag--engineering { border-color: rgba(8, 120, 255, 0.5); color: var(--link); }
+.post-card__tag--essays { border-color: rgba(0, 235, 252, 0.4); color: var(--cyan); }
+

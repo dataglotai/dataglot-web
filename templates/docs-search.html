@@ -1,0 +1,76 @@
+<div class="docs-searchbar" id="docs-searchbar">
+  <div class="docs-searchbar__box" id="docs-search"></div>
+</div>
+<script>
+  (function () {
+    // Pagefind search over three indexes (docs + guides + blog), weighted by
+    // context: the current section's index ranks at full weight, the others
+    // merge in lower. Indexes exist only in post-build output; the bar hides
+    // itself during `zola serve`.
+    var primary = "{{ search_primary | default(value='docs') }}";
+    var bar = document.getElementById("docs-searchbar");
+    if (!bar) return;
+    var BUNDLES = { docs: "/pagefind-docs/", guides: "/pagefind-guides/", blog: "/pagefind-blog/" };
+    var bundle = BUNDLES[primary] || BUNDLES.docs;
+    var merge = Object.keys(BUNDLES)
+      .filter(function (k) { return BUNDLES[k] !== bundle; })
+      .map(function (k) { return { bundlePath: BUNDLES[k], indexWeight: k === "blog" ? 0.3 : 0.7 }; });
+    var css = document.createElement("link");
+    css.rel = "stylesheet";
+    css.href = bundle + "pagefind-ui.css";
+    document.head.appendChild(css);
+    var s = document.createElement("script");
+    s.src = bundle + "pagefind-ui.js";
+    s.onload = function () {
+      var isMac = /Mac|iP/.test(navigator.platform);
+      new PagefindUI({
+        element: "#docs-search",
+        bundlePath: bundle,
+        mergeIndex: merge,
+        showSubResults: true,
+        showImages: false,
+        translations: { placeholder: "Search docs, guides & blog…  " + (isMac ? "⌘K" : "Ctrl+K") },
+      });
+      // Cmd/Ctrl+K (and "/") focuses the search from anywhere on the page
+      document.addEventListener("keydown", function (e) {
+        var focusKey =
+          ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") ||
+          (e.key === "/" && !/INPUT|TEXTAREA/.test(document.activeElement.tagName));
+        if (focusKey) {
+          e.preventDefault();
+          var input = bar.querySelector("input");
+          if (input) input.focus();
+        }
+      });
+      // Arrow-key navigation over results; Enter opens, Escape closes.
+      var kbdIdx = -1;
+      function resultLinks() {
+        return Array.prototype.slice.call(bar.querySelectorAll(".pagefind-ui__result-link"));
+      }
+      function setKbdActive(i) {
+        var ls = resultLinks();
+        if (!ls.length) return;
+        kbdIdx = Math.max(0, Math.min(i, ls.length - 1));
+        ls.forEach(function (l, j) { l.classList.toggle("is-kbd-active", j === kbdIdx); });
+        ls[kbdIdx].scrollIntoView({ block: "nearest" });
+      }
+      bar.addEventListener("keydown", function (e) {
+        if (e.key === "ArrowDown") { e.preventDefault(); setKbdActive(kbdIdx + 1); }
+        else if (e.key === "ArrowUp") { e.preventDefault(); setKbdActive(kbdIdx - 1); }
+        else if (e.key === "Enter") {
+          var ls = resultLinks();
+          if (kbdIdx >= 0 && ls[kbdIdx]) { e.preventDefault(); window.location.href = ls[kbdIdx].href; }
+        } else if (e.key === "Escape") {
+          var input = bar.querySelector("input");
+          if (input) input.blur();
+        }
+      });
+      bar.addEventListener("input", function () {
+        kbdIdx = -1;
+        resultLinks().forEach(function (l) { l.classList.remove("is-kbd-active"); });
+      });
+    };
+    s.onerror = function () { bar.style.display = "none"; };
+    document.body.appendChild(s);
+  })();
+</script>
