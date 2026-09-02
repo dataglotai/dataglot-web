@@ -21,7 +21,7 @@ brew install dataglotai/tap/dataglot && dataglot
 ```
 
 ```bash
-docker run --rm -p 5432:5432 ghcr.io/dataglotai/dataglot:latest
+docker run --rm -p 127.0.0.1:5432:5432 ghcr.io/dataglotai/dataglot:latest
 ```
 {% </code_tabs> %}
 
@@ -142,6 +142,12 @@ NDJSON), stdin piping, exit codes, and shell completions.
 
 ## Where next
 
+- **Understand the model** — what a catalog is, how a query is planned
+  and governed, and which sources you can point it at:
+  [How Dataglot works](/docs/how-it-works/) and
+  [Catalogs, schemas & tables](/docs/catalogs-and-schemas/).
+- **Add another source** — [Add a data source](/docs/adding-a-source/)
+  and the [data sources](/docs/data-sources/) index.
 - **Runtime configuration** — the full SQL DDL surface (catalogs,
   secrets, users, roles, masks): [Runtime configuration](/docs/runtime-config/).
 - **Config-file deployments** — prefer declarative files? Every runtime

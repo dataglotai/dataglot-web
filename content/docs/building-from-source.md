@@ -1,7 +1,7 @@
 +++
 title = "Building from source"
 description = "For contributors and the curious: compile Dataglot yourself with a stable Rust toolchain."
-weight = 110
+weight = 170
 +++
 
 You don't need any of this to *use* Dataglot — every release is
@@ -103,27 +103,44 @@ cargo build --release --workspace --bins --all-features
   server hosts one in-process).
 - **Whole workspace** — every binary with everything on; the heaviest build.
 
-The 4 workspace binaries: `dataglot` (`dataglot-server`) · `dataglot-ballista-executor`
-and `dataglot-ballista-scheduler` (`dataglot-ballista`) · `dataglot-testbench`.
-Building **all** with `--all-features` pulls the heaviest toolchain set: `protoc`
-(ballista), a **C** compiler (OCI `oracle`/ODPI-C), a **C++** compiler (testbench
-`duckdb` comparator, bundled), and **Node** (testbench frontend build).
+The 3 workspace binaries: `dataglot` (`dataglot-server`) · `dataglot-ballista-executor`
+and `dataglot-ballista-scheduler` (`dataglot-ballista`). Building **all** with
+`--all-features` pulls the heaviest toolchain set: `protoc` (ballista) and a
+**C** compiler (OCI `oracle`/ODPI-C).
 
 Default build (`-p dataglot-server`, no `--features`) always compiles the
 pure-Rust connectors — `postgres`, `mysql`, `iceberg`, `snowflake`, `odata`,
 `rest` — and leaves `ballista`, `dashboard`, `oracle`, `oracle-pure`, `adbc`,
 and `flight_sql` off.
 
-## Run the demo stack against your build
+## Try your build
 
-The repository's containerized demo (two Postgres + one MySQL with a
-masking policy) can run your local build instead of the released image:
+A cold build takes 15–20 minutes; incremental rebuilds are fast. The
+`release-fast` profile puts the binary at `target/release-fast/dataglot`
+(`target/release/dataglot` for `--release`, `target/debug/dataglot` for a
+plain `cargo build`).
+
+The quickest check needs no config and no sources — the server boots with
+no catalogs and you create them over SQL, exactly as in the
+[quickstart](/docs/getting-started/):
 
 ```bash
-make demo-dev
+./target/release-fast/dataglot
 ```
 
-A cold build takes 15–20 minutes; incremental rebuilds are fast.
+The repository also ships worked example configs in
+[`examples/demo`](https://github.com/dataglotai/dataglot/tree/main/examples/demo)
+— Postgres + MySQL catalogs with masks, row filters and derived products
+(`dataglot.toml`), a TPC-H setup, a lakehouse, and a Snowflake variant.
+Each names its credentials through `*_env` variables rather than inlining
+them, so export those before booting:
+
+```bash
+export DEMO_PG_DSN='host=localhost port=5432 user=me dbname=app'
+export DEMO_ORDERS_DSN='host=localhost port=5433 user=me dbname=orders'
+export DEMO_MYSQL_DSN='mysql://me:pw@localhost:3306/app'
+./target/release-fast/dataglot --config examples/demo/dataglot.toml
+```
 
 ## Contributing
 

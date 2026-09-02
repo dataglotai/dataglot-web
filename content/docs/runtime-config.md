@@ -1,7 +1,7 @@
 +++
 title = "Runtime configuration (SQL DDL)"
 description = "Manage catalogs, secrets, users, roles, and governance rules at runtime over SQL — no config file, no restart."
-weight = 50
+weight = 110
 +++
 
 Dataglot manages its catalogs, secrets, users, and governance rules

@@ -1,13 +1,13 @@
 +++
 title = "PostgreSQL wire API"
 description = "The client-facing command surface: connection semantics, supported statements, psql meta-commands, and single-node vs distributed parity."
-weight = 100
+weight = 160
 +++
 
 Dataglot speaks the **PostgreSQL v3 wire protocol**, so any PostgreSQL client — `psql`, `pgcli`, JDBC/ODBC, psycopg, `tokio-postgres`, and BI tools (DBeaver, DataGrip, Metabase, Tableau, Grafana) — connects with no custom driver. Under the hood a query flows `pg wire → planner → federation pushdown → source`; a full analytical SQL surface is available, plus a `pg_catalog` / `information_schema` emulation for tool introspection.
 
 > **Scope.** This documents the client-facing command surface, not the SQL dialect.
-> Verified live in **both** single-node and `--distributed` modes.
+> Verified live in **both** single-node and distributed modes.
 
 ## Connecting
 
@@ -24,12 +24,12 @@ psql "host=127.0.0.1 port=5432 user=<user> dbname=<catalog>"
 | Category | Supported | Notes |
 |---|---|---|
 | **Queries** | ✅ `SELECT`, `WITH`/CTE, subqueries, joins, aggregates, `DISTINCT`, window functions, `ORDER/GROUP/LIMIT` | Full analytical surface — `CASE`, `coalesce`, `::` casts, `ARRAY[…]`, string/date/math functions, `array_upper/lower`, etc. |
-| **Plans** | ✅ `EXPLAIN`, `EXPLAIN ANALYZE` | `EXPLAIN ANALYZE` reports distributed stage metrics (ShuffleWriterExec rows/timings) under `--distributed`. |
+| **Plans** | ✅ `EXPLAIN`, `EXPLAIN ANALYZE` | `EXPLAIN ANALYZE` reports distributed stage metrics (ShuffleWriterExec rows/timings) in distributed mode. |
 | **Prepared / extended protocol** | ✅ `PREPARE` / `EXECUTE(params)` / `DEALLOCATE` | The bind-parameter path JDBC/psycopg/BI drivers use. |
 | **Session** | ✅ `SET` / `RESET` / `DISCARD ALL`, `SHOW <var>` | `SET` accepts session + custom vars; `SHOW server_version`, `search_path`, `transaction_isolation` resolve. |
 | **Transactions** | ✅ `BEGIN` / `COMMIT` / `ROLLBACK` | Accepted with autocommit semantics — no MVCC / multi-statement transactional isolation. |
 | **Introspection** | ✅ `pg_catalog.*`, `information_schema.*` | `pg_class`, `pg_namespace`, `pg_attribute`, `pg_type`, `pg_proc`, `pg_description`; `information_schema.tables/columns/schemata/views`. |
-| **DDL (session)** | ⚠️ `CREATE TABLE` | Creates an in-memory session table. **Not readable back under `--distributed`** (a session MemTable isn't in the distributed codec registry) — single-node only. |
+| **DDL (session)** | ⚠️ `CREATE TABLE` | Creates an in-memory session table. **Not readable back in distributed mode** (a session MemTable isn't in the distributed codec registry) — single-node only. |
 | **Writes to federated tables** | ❌ `INSERT` / `UPDATE` / `DELETE` on a federated source | Federation is the read path. Writable analytical tables go through Iceberg warehouses (a separate path), not federated `INSERT`. |
 | **Bulk copy** | ⚠️ `COPY (query) TO STDOUT` (text) | Text egress works over the simple protocol — psql `\copy`, JDBC `CopyManager`. CSV/binary `WITH` options, `COPY … FROM STDIN`, and extended-protocol clients (e.g. `tokio_postgres::copy_out`) are follow-ups. |
 
@@ -44,7 +44,7 @@ psql "host=127.0.0.1 port=5432 user=<user> dbname=<catalog>"
 | `\copy … to` | ✅ | text format, via `COPY (query) TO STDOUT` |
 
 The `\d` family and the functions behind it work in **both** single-node and
-`--distributed` mode.
+distributed mode.
 
 ### Session / introspection functions
 
@@ -52,11 +52,11 @@ Implemented: `current_database()`, `current_schema()`, `current_schemas()`, `ses
 
 `SHOW server_version_num` / `ssl` / `is_superuser` are shimmed, and `SHOW server_version` reports a PG-compatible `16.6 (Dataglot)` consistent with the startup value. Known thin spots: `pg_settings` is sparse (used for `SHOW ALL`); `pg_roles` is empty (identity-unaware); `oid` UDF args want `int4` (cast an integer literal: `pg_get_userbyid(CAST(n AS INT))`).
 
-## Single-node vs `--distributed`
+## Single-node vs distributed
 
-Dataglot runs the same pg-wire surface whether the server is single-node or a distributed cluster (`--distributed`). Almost everything behaves identically; the mode-specific behavior is called out here because "does it work distributed?" is the non-obvious axis.
+Dataglot runs the same pg-wire surface whether the server is single-node or a distributed cluster. Almost everything behaves identically; the mode-specific behavior is called out here because "does it work distributed?" is the non-obvious axis.
 
-| Command / feature | single-node | `--distributed` | Notes |
+| Command / feature | single-node | distributed | Notes |
 |---|---|---|---|
 | `SELECT` / joins / aggregates / window / CTE | ✅ | ✅ | distributed splits the scan/compute across cluster slots |
 | `EXPLAIN` / `EXPLAIN ANALYZE` | ✅ | ✅ | distributed run adds per-stage shuffle metrics |
@@ -69,7 +69,7 @@ Dataglot runs the same pg-wire surface whether the server is single-node or a di
 | `COPY (query) TO STDOUT` (text) | ✅ | ✅ | the inner query runs in the active mode; simple protocol only |
 | **`CREATE TABLE` (session) then read it back** | ✅ | ❌ | a session `MemTable` isn't in the distributed codec registry — single-node only |
 | `INSERT` / `UPDATE` / `DELETE` on a federated source | ❌ | ❌ | read path in both modes; writes go to Iceberg warehouses |
-| Distributed sources w/o a codec (snowflake / oracle / adbc / rest) | ✅ (single-node) | ❌ (refused pre-submission) | run those catalogs single-node — a deliberate guardrail |
+| Sources with no distributed codec (odata / sap_s4hana / rest always; oracle / adbc unless built with their feature) | ✅ (single-node) | ❌ (refused pre-submission) | run those catalogs single-node — a deliberate guardrail |
 
 **Takeaway:** the introspection/driver surface is at parity across modes; the only functional single-node-only item is reading back a session-created table, plus the known "some federated sources have no distributed codec yet" guardrail.
 

@@ -38,7 +38,7 @@ Dataglot is pre-1.0 and moving fast, but the current release (v0.5.0) is already
 - **Enterprise authentication**: SCRAM-SHA-256 and md5, LDAP/Active Directory group resolution, pg-wire ingress TLS, TLS to source databases, and connection admission control with per-identity rate ceilings.
 - **Governance integrations**: column-level OpenLineage events on every query, DataHub data-product registration, policy explainability (`POST /policy/explain` tells you why a row was excluded or a column masked), and an inbound webhook so tag changes in your governance platform propagate to enforcement in under a minute.
 - **Distributed execution** on Apache Ballista with object-store-based scheduler HA (no ZooKeeper, no etcd), cluster mTLS, and near-linear scaling measured on TPC-H across four workers.
-- **Operations**: a live dashboard (source health, query history, sessions, governance posture), a structured audit trail queryable via SQL, and a multi-engine browser testbench that diffs Dataglot's results row-by-row against other engines.
+- **Operations**: a live dashboard (source health, query history, sessions, governance posture), a structured audit event for every policy decision, emitted on a dedicated `dataglot::audit` log target for your collector, and a multi-engine browser testbench that diffs Dataglot's results row-by-row against other engines.
 
 And a hard constraint we've held from day one: **no JVM in the production runtime**. Dataglot is a single Rust binary, built on the proven Apache DataFusion and Arrow foundation.
 

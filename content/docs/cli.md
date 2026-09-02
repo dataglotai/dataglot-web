@@ -1,7 +1,7 @@
 +++
 title = "Command line & REPL"
 description = "Run federated, governed SQL straight from your terminal — one-shot queries, an interactive shell, and scripting-friendly CSV/JSON output, no server required."
-weight = 15
+weight = 90
 +++
 
 The `dataglot` binary is also a command-line SQL client. `dataglot query`

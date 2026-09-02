@@ -1,13 +1,14 @@
 +++
 title = "Client compatibility"
 description = "The verified client-tool matrix — psql, DBeaver, DataGrip, Metabase, dbt, JDBC, psycopg, node-postgres — and the limitations that are by design."
-weight = 90
+weight = 150
 +++
 
 Dataglot speaks the PostgreSQL wire protocol (both simple and extended
 flavors), so anything built on a Postgres driver connects. GUI tools
 are grouped under the driver they embed — a tool's schema browser and
-query runner exercise exactly the driver behaviors the matrix scripts.
+query runner exercise exactly the driver behaviors the matrix scripts
+cover.
 
 > **Scripted verification.** The matrix below is verified by an automated
 > smoke suite that runs **connect / introspect / federated query / extended
@@ -15,7 +16,7 @@ query runner exercise exactly the driver behaviors the matrix scripts.
 > live server on every release.
 
 All stacks pass (psql, node-postgres, pgJDBC, psycopg) in both single-node
-and `--distributed` modes. One operational note for distributed servers:
+and distributed modes. One operational note for distributed servers:
 under heavy concurrent load, queries queue for executor slots and resume
 as slots free — throughput behavior, independent of the client.
 
@@ -24,8 +25,8 @@ as slots free — throughput behavior, independent of the client.
 | Tool / stack | Driver | Connect | Introspect | Federated query | Extended protocol | Cancel | Verified |
 |---|---|---|---|---|---|---|---|
 | **psql** | libpq | ✅ | ✅ (`\dt`, `\d`, information_schema) | ✅ | ✅ (`\bind`) | ✅ Ctrl-C | scripted |
-| **pgcli** | psycopg | ✅ | ✅ | ✅ | ✅ | ✅ | via psycopg (scripted); single-node + `--distributed` |
-| **Python** (psycopg 3) | psycopg | ✅ | ✅ | ✅ | ✅ | ✅ `Connection.cancel()` | scripted; `--distributed` verified 30/30 |
+| **pgcli** | psycopg | ✅ | ✅ | ✅ | ✅ | ✅ | via psycopg (scripted); single-node + distributed |
+| **Python** (psycopg 3) | psycopg | ✅ | ✅ | ✅ | ✅ | ✅ `Connection.cancel()` | scripted; distributed verified 30/30 |
 | **dbt-postgres** | psycopg2 | ✅ | ✅ | ✅ | ✅ | ✅ | via psycopg (scripted); no DDL → see limits |
 | **Node.js** (`pg`) | node-postgres | ✅ | ✅ | ✅ | ✅ | n/a (driver exposes no cancel API) | scripted |
 | **DBeaver** | pgJDBC | ✅ | ✅ (`DatabaseMetaData`) | ✅ | ✅ | ✅ `Statement.cancel()` | via pgJDBC (scripted) |

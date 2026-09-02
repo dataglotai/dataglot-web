@@ -15,6 +15,22 @@
       ]
     },
     {
+      "name": "Concepts",
+      "description": "The model behind the engine — how a query travels, what a catalog is, and which sources you can point it at.",
+      "groups": [
+        {
+          "name": null,
+          "pages": [
+            { "title": "How Dataglot works", "url": "/docs/how-it-works/" },
+            { "title": "Catalogs, schemas & tables", "url": "/docs/catalogs-and-schemas/" },
+            { "title": "Data sources", "url": "/docs/data-sources/" },
+            { "title": "Add a data source", "url": "/docs/adding-a-source/" },
+            { "title": "Glossary", "url": "/docs/glossary/" }
+          ]
+        }
+      ]
+    },
+    {
       "name": "Command line",
       "description": "One-shot queries, the REPL, and shell pipelines — the full engine with no server.",
       "groups": [

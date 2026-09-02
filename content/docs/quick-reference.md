@@ -57,7 +57,7 @@ server with the scheduler + one *in-process* executor, no external workers):
         │  pgwire · query planner · policy            │
         │  cluster scheduler   (in-process)           │
         └───────┬───────────────────────────┬─────────┘
-        dispatch│ register  gRPC :50060      │ status  REST :50050
+        dispatch│ register  gRPC :50051      │ status  REST :50050
                 ▼                            ▼
     ┌───────────────────────┐   ┌───────────────────────┐
     │ dataglot-ballista-    │◄─►│ dataglot-ballista-    │
@@ -84,8 +84,11 @@ server with the scheduler + one *in-process* executor, no external workers):
 - **`dataglot-ballista-scheduler`** — standalone scheduler binary, **optional**:
   the server already hosts one in-process, so it's only for a fully-external
   cluster deployment.
-- **`dataglot-testbench`** — dev-only: connects over pgwire like any client and
-  reads the server's status/REST for the dashboard. Not part of the engine.
+- **`dataglot-testbench`** — internal tooling, **not part of the public
+  repository** and not something you can build from it. Shown here only
+  because it appears in the diagram above: it connects over pgwire like any
+  other client and reads the server's status/REST API. Nothing in the engine
+  depends on it.
 
 ## Dashboard
 

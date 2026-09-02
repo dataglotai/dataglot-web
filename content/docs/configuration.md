@@ -1,7 +1,7 @@
 +++
 title = "Configuration file"
 description = "The exhaustive `dataglot.toml` reference — every field, every catalog kind, governance, TLS, auth, rate limiting, and observability."
-weight = 40
+weight = 100
 +++
 
 > **New to Dataglot?.** Start with the step-by-step [quickstart](/docs/getting-started/)
@@ -57,17 +57,18 @@ escape hatches. Secrets never appear in logs, errors, or plans.
 | `tolerate_unreachable_catalogs` | bool | `false` | `true`: skip catalogs that fail to connect at boot (WARN); `false`: fail fast |
 
 Plus the nested blocks documented below: `observability`, `catalogs`,
-`masks`, `row_filters`, `access_denials`, `identities`, `roles`,
-`governance`, `derived_products`, `maintenance`, `auth`, `pgwire_tls`,
-`rate_limit`, `policy_explain`, `lineage`, `governance_publishers`,
-`webhook`, `catalog_service`, `ballista`.
+`masks`, `row_filters`, `access_denials`, `column_grants`,
+`identities`, `roles`, `governance`, `derived_products`,
+`maintenance`, `auth`, `authz`, `pgwire_tls`, `rate_limit`,
+`policy_explain`, `lineage`, `governance_publishers`, `webhook`,
+`catalog_service`, `flight_sql`, `ballista`.
 
 ## `observability`
 
 | Key | Type | Default | Meaning |
 |---|---|---|---|
 | `log_format` | `"plain"` \| `"json"` | `"plain"` | Log output format |
-| `log_filter` | string | `"dataglot=info"` | `EnvFilter` directive used when `RUST_LOG` is unset |
+| `log_filter` | string | `"dataglot=info,datafusion=warn,pgwire=warn"` | `EnvFilter` directive used when `RUST_LOG` is unset |
 | `metrics_addr` | `"host:port"` or `null` | `"127.0.0.1:9090"` | Prometheus `/metrics` bind address; `null` disables |
 | `health_check_enabled` | bool | `true` | Expose `/health` alongside `/metrics` |
 | `capture_query_sources` | bool | `false` | Plan each query once up front to record the source catalogs it federates across (dashboard federation breakdown), and — when execution is single-partition single-node — capture the per-source pushdown profile shown in the dashboard query treeview. Does **not** change parallelism. The treeview populates only with `partitions = 1` (an explicit profiling choice — it serializes local execution). In distributed mode pushdowns run in the executor processes and aren't captured by the scheduler dashboard. |
@@ -282,7 +283,7 @@ REST/JSON field names are case-sensitive, so quote them in SQL.
   for an API-key header), or `"oauth2"` (see below). Secrets prefer the `*_env`
   form.
 
-Note that REST catalogs are **single-node only**: under `--distributed` a
+Note that REST catalogs are **single-node only**: in distributed mode a
 query against one is refused with a "run single-node" message (no
 distributed plan codec).
 
@@ -368,6 +369,35 @@ groups = []
 
 Enforced plan-time *before* masking; a denied query fails with
 `permission denied`. Empty `groups` denies everyone.
+
+### `column_grants` — column whitelists
+
+The inverse of `access_denials`: instead of naming what to hide, name the
+**only** columns a group may see.
+
+```toml
+[[column_grants]]
+table   = "pg.public.employees"
+columns = ["id", "name", "department"]   # the only visible columns
+groups  = ["ops-analyst"]                # for these groups
+# org   = "acme"                         # optionally tenant-scoped
+```
+
+| Key | Type | Default | Meaning |
+|---|---|---|---|
+| `table` | string | — | Target table — bare, partial, or fully qualified |
+| `columns` | array | — | The visible (whitelisted) columns on `table` |
+| `groups` | array | `[]` | Groups the whitelist applies to; empty applies to every session |
+| `org` | string | unset | Tenant scope; absent means operator-wide |
+
+Non-whitelisted columns are **projected away** — absent from the result
+entirely, not masked and not null. This is enforced at the *analyzer*
+stage rather than the optimizer, because dropping a column changes the
+plan's output schema.
+
+Multiple grants on one table are **additive** — the visible set is their
+union. A table with no applicable grant is unrestricted, so a whitelist
+only constrains tables it names.
 
 ### `identities` and `roles`
 
@@ -593,6 +623,33 @@ next run, and any redacted error — is served at `GET /api/maintenance`
 and rendered as the **Warehouse maintenance** panel on the dashboard's
 Materialization tab. Loopback-only, same posture as the rest of `/api`.
 
+### `flight_sql` — Arrow Flight SQL endpoint *(feature-gated: `flight_sql`)*
+
+A second query interface alongside pg-wire, speaking Arrow Flight SQL over
+gRPC — native Arrow out, no row conversion. It shares the same
+`SessionContext` and the same plan-time policy enforcement, so masks, row
+filters, denials, and grants apply **identically** on both interfaces.
+
+```toml
+[flight_sql]
+addr = "0.0.0.0:32010"
+
+[flight_sql.tls]
+cert_file = "/etc/dataglot/flight.crt"
+key_file  = "/etc/dataglot/flight.key"
+```
+
+| Key | Type | Default | Meaning |
+|---|---|---|---|
+| `addr` | `"host:port"` | `"0.0.0.0:32010"` | gRPC bind address |
+| `tls.cert_file` | path | — | PEM certificate chain presented to clients |
+| `tls.key_file` | path | — | PEM private key for `cert_file` |
+
+Omit the `tls` block for plaintext gRPC (h2c). Certificates are referenced
+by path and never inlined. The block requires a build with the
+`flight_sql` feature — it is not in the published binaries or container
+image, so see [building from source](/docs/building-from-source/).
+
 ### `ballista` — distributed execution *(feature-gated: `ballista`)*
 
 ```toml
@@ -605,11 +662,22 @@ Spins up Dataglot's in-process distributed cluster (1 scheduler +
 executors with the given task slots). Present-but-uncompiled is a boot
 error.
 
+| Key | Type | Default | Meaning |
+|---|---|---|---|
+| `standalone_parallelism` | integer | `2` | Executor task slots for the in-process standalone cluster |
+| `rest_api_port` | integer or `null` | `50050` | Scheduler observability REST API; loopback-only, `null` disables. A failed bind is a boot warning, never a failure |
+| `external_executors` | integer | `0` | Number of **external** executor processes expected to register. `0` keeps the embedded shape (scheduler + one in-process executor); `> 0` boots a **scheduler-only** cluster and you spawn that many `dataglot-ballista-executor` processes yourself |
+| `scheduler_grpc_port` | integer | `50051` | gRPC port the scheduler binds when `external_executors > 0`, so external executors can register (their `--scheduler-port`). Ignored in the embedded shape |
+| `executor_timeout_seconds` | integer | `3600` | Seconds without a heartbeat before the scheduler declares an executor dead. Ballista's own default of 180s culls healthy executors whenever the host pauses longer than that (laptop sleep, load spike, a long idle), leaving the cluster with no workers and in-flight jobs stuck at 0%. Lower it if you want faster dead-node detection |
+
 Distributed-capable catalogs: federated SQL sources (`postgres`,
-`mysql`), **Iceberg warehouses** (`warehouse` — lazily rebuilt on
-executors, the catalog `load_table` happens at execution time), and
-`object_storage` files. Other kinds fail with a clear "not available
-in distributed mode" error and should be queried single-node.
+`mysql`, `snowflake`), **Iceberg warehouses** (`warehouse` — lazily
+rebuilt on executors, the catalog `load_table` happens at execution
+time), and `object_storage` files. The direct-`TableProvider` sources
+(`odata`, `sap_s4hana`, `rest`) always run single-node, and `oracle` /
+`adbc` distribute only when the server **and** the executors were built
+with their feature. Anything else fails with a clear "not available in
+distributed mode" error and should be queried single-node.
 
 `rest_api_port` serves the scheduler's observability REST API on
 loopback (`/api/state`, `/api/executors`, `/api/jobs`,

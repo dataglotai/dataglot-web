@@ -21,7 +21,7 @@ Pick either channel (the [install page](/docs/install/) lists them all):
 
 {% <code_tabs labels="Docker, Homebrew"> %}
 ```bash
-docker run --rm -p 5432:5432 ghcr.io/dataglotai/dataglot:latest
+docker run --rm -p 127.0.0.1:5432:5432 ghcr.io/dataglotai/dataglot:latest
 ```
 
 ```bash

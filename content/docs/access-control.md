@@ -1,7 +1,7 @@
 +++
 title = "Access control & policies"
 description = "The three layers — authentication, GRANT authorization, and plan-time governance — and why nothing (not even a superuser) bypasses a mask."
-weight = 80
+weight = 140
 +++
 
 The single entry point for how Dataglot decides **who may connect**, **which

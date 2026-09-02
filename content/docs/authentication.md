@@ -1,7 +1,7 @@
 +++
 title = "Authentication"
 description = "How clients prove who they are: trust, md5, SCRAM-SHA-256, JWT, and LDAP/AD — plus identities in config and at runtime."
-weight = 70
+weight = 130
 +++
 
 How clients prove who they are to Dataglot's pgwire port, and how login

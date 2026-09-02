@@ -1,7 +1,7 @@
 +++
 title = "Meta store"
 description = "Where runtime control-plane state lives: the embedded redb backend, the Postgres backend, and what is (and isn't) stored."
-weight = 60
+weight = 120
 +++
 
 Everything Dataglot creates **at runtime** — catalogs, secrets, users, roles,
