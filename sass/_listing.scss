@@ -264,7 +264,8 @@
   }
 }
 
-.article-toc-rail__top {
+.article-toc-rail__top,
+.guides-page-toc__top {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -274,6 +275,29 @@
 
   &:hover {
     color: var(--ink);
+  }
+}
+
+// Docs & guides: the sticky TOC rail is always on screen, so it's the *link*
+// that reveals on scroll, not the rail. Collapsed rather than merely
+// transparent — a reserved-but-empty slot would read as a spacing bug at the
+// top of the page.
+.guides-page-toc__top {
+  opacity: 0;
+  max-height: 0;
+  margin-bottom: 0;
+  overflow: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.2s ease,
+    max-height 0.2s ease,
+    margin-bottom 0.2s ease;
+
+  &.is-visible {
+    opacity: 1;
+    max-height: 1.6rem;
+    margin-bottom: 12px;
+    pointer-events: auto;
   }
 }
 

@@ -272,10 +272,44 @@
     document.body.appendChild(s);
   }
 
+  // "Back to top" in the docs / guides TOC rail. Mirrors the blog rail's
+  // behaviour: smooth-scroll instead of a hash jump, and don't leave a
+  // stray "#" on the URL.
+  function initTocTop() {
+    var link = document.getElementById("guides-toc-top");
+    if (!link) return;
+    link.addEventListener("click", function (e) {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // Only offer it once there is somewhere to go back to. rAF-throttled,
+    // and run once up front so a deep link (/page/#heading) starts correct.
+    var ticking = false;
+    function sync() {
+      ticking = false;
+      var on = window.scrollY > 160;
+      link.classList.toggle("is-visible", on);
+      link.setAttribute("aria-hidden", String(!on));
+      link.tabIndex = on ? 0 : -1;
+    }
+    window.addEventListener(
+      "scroll",
+      function () {
+        if (ticking) return;
+        ticking = true;
+        window.requestAnimationFrame(sync);
+      },
+      { passive: true },
+    );
+    sync();
+  }
+
   function init() {
     var content = document.getElementById("guides-content");
     if (!content) return;
 
+    initTocTop();
     initMermaid(content);
 
     Array.prototype.forEach.call(
